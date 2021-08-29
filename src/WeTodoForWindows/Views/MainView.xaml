@@ -10,11 +10,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
     Title="MainWindow"
-    Width="1280"
-    Height="768"
+    Width="1050"
+    Height="700"
     prism:ViewModelLocator.AutoWireViewModel="True"
     Background="{DynamicResource MaterialDesignPaper}"
-    FontFamily="{DynamicResource MaterialDesignFont}"
+    FontFamily="{DynamicResource 微软雅黑}"
     TextElement.FontSize="13"
     TextElement.FontWeight="Regular"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -28,7 +28,10 @@
     </WindowChrome.WindowChrome>
     <materialDesign:DialogHost DialogTheme="Inherit" Identifier="RootDialog">
 
-        <materialDesign:DrawerHost x:Name="drawerHost" IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
+        <materialDesign:DrawerHost
+            x:Name="drawerHost"
+            IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}"
+            OpenMode="Standard">
             <materialDesign:DrawerHost.LeftDrawerContent>
                 <DockPanel MinWidth="200">
                     <StackPanel
@@ -86,7 +89,7 @@
 
             <DockPanel>
                 <materialDesign:ColorZone
-                    Padding="16"
+                    Padding="14"
                     materialDesign:ShadowAssist.ShadowDepth="Depth2"
                     DockPanel.Dock="Top"
                     Mode="PrimaryMid">
