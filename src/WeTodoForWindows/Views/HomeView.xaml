@@ -23,7 +23,7 @@
             FontWeight="Medium"
             Text="您好，傲慢与偏见！今天是 2021-08-29 星期日" />
 
-        <Border
+        <!--<Border
             Grid.Row="1"
             Height="45"
             Margin="10"
@@ -51,6 +51,66 @@
                     FontSize="18"
                     Foreground="#ACACAC" />
             </StackPanel>
-        </Border>
+        </Border>-->
+
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding TaskBars}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="4" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border
+                        Margin="10"
+                        Background="{Binding Color}"
+                        CornerRadius="5">
+                        <Grid>
+                            <StackPanel Margin="20,10">
+                                <materialDesign:PackIcon
+                                    Width="30"
+                                    Height="30"
+                                    Kind="{Binding Icon}" />
+                                <TextBlock
+                                    Margin="0,15"
+                                    FontSize="15"
+                                    Text="{Binding Title}" />
+                                <TextBlock
+                                    FontSize="40"
+                                    FontWeight="Bold"
+                                    Text="{Binding Content}" />
+                            </StackPanel>
+
+                            <Canvas ClipToBounds="True">
+                                <Border
+                                    Canvas.Top="10"
+                                    Canvas.Right="-50"
+                                    Width="120"
+                                    Height="120"
+                                    Background="White"
+                                    CornerRadius="100"
+                                    Opacity=".1" />
+                                <Border
+                                    Canvas.Top="80"
+                                    Canvas.Right="-30"
+                                    Width="120"
+                                    Height="120"
+                                    Background="White"
+                                    CornerRadius="100"
+                                    Opacity=".1" />
+                            </Canvas>
+                        </Grid>
+                    </Border>
+
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+        </Grid>
     </Grid>
 </UserControl>

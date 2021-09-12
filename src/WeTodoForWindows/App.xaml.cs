@@ -27,9 +27,7 @@ namespace WeTodoForWindows
             containerRegistry.RegisterForNavigation<HomeView, HomeViewModel>();
             containerRegistry.RegisterForNavigation<TodoView, TodoViewModel>();
             containerRegistry.RegisterForNavigation<MemoView, MemoViewModel>();
-            containerRegistry.RegisterForNavigation<InboxView, InboxViewModel>();
             containerRegistry.RegisterForNavigation<SettingView, SettingViewModel>();
-            containerRegistry.RegisterForNavigation<DataCheckingView, DataCheckingViewModel>();
         }
     }
 }

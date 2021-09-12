@@ -43,14 +43,6 @@ namespace WeTodoForWindows.Models
             set { content = value;RaisePropertyChanged(); }
         }
 
-        /// <summary>
-        /// 相比前一天涨幅趋势
-        /// </summary>
-        public float Gains
-        {
-            get { return gains; }
-            set { gains = value;RaisePropertyChanged(); }
-        }
 
         /// <summary>
         /// 颜色
