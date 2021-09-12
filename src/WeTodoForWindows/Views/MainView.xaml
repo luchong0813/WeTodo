@@ -31,7 +31,7 @@
         <materialDesign:DrawerHost
             x:Name="drawerHost"
             IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}"
-            OpenMode="Standard">
+            OpenMode="Model">
             <materialDesign:DrawerHost.LeftDrawerContent>
                 <DockPanel MinWidth="200">
                     <StackPanel HorizontalAlignment="Center" DockPanel.Dock="Top">

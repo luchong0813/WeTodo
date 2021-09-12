@@ -106,11 +106,105 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" Margin="0,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
+
+            <Border
+                Margin="10,0"
+                Background="#BEBEBE"
+                CornerRadius="5"
+                Opacity=".1" />
+
+            <!--  待办列表  -->
+            <DockPanel Margin="10,0">
+                <DockPanel
+                    Margin="10,5"
+                    DockPanel.Dock="Top"
+                    LastChildFill="False">
+                    <TextBlock
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Text="待办事项" />
+                    <Button
+                        Width="30"
+                        Height="30"
+                        VerticalAlignment="Top"
+                        DockPanel.Dock="Right"
+                        Foreground="White"
+                        Style="{StaticResource MaterialDesignFloatingActionAccentButton}">
+                        <Button.Content>
+                            <materialDesign:PackIcon Kind="Add" />
+                        </Button.Content>
+                    </Button>
+                </DockPanel>
+                <ListBox ItemsSource="{Binding TodoDtos}" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel MaxHeight="80">
+                                <TextBlock
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    Text="{Binding Title}" />
+                                <TextBlock
+                                    Margin="0,5"
+                                    Opacity="0.5"
+                                    Text="{Binding Content}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+
+            <!--  备忘列表  -->
+            <DockPanel Grid.Column="1" Margin="10,0">
+                <DockPanel
+                    Margin="10,5"
+                    DockPanel.Dock="Top"
+                    LastChildFill="False">
+                    <TextBlock
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Text="备忘录" />
+                    <Button
+                        Width="30"
+                        Height="30"
+                        VerticalAlignment="Top"
+                        DockPanel.Dock="Right"
+                        Foreground="White"
+                        Style="{StaticResource MaterialDesignFloatingActionAccentButton}">
+                        <Button.Content>
+                            <materialDesign:PackIcon Kind="Add" />
+                        </Button.Content>
+                    </Button>
+                </DockPanel>
+                <ListBox ItemsSource="{Binding MemoDtos}" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel MaxHeight="80">
+                                <TextBlock
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    Text="{Binding Title}" />
+                                <TextBlock
+                                    Margin="0,5"
+                                    Opacity="0.5"
+                                    Text="{Binding Content}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+
+            <Border
+                Grid.Column="1"
+                Margin="10,0"
+                Panel.ZIndex="-1"
+                Background="#BEBEBE"
+                CornerRadius="5"
+                Opacity=".1" />
         </Grid>
     </Grid>
 </UserControl>
