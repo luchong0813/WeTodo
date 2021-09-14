@@ -12,7 +12,6 @@ namespace WeTodoForWindows.Models
         private string icon;
         private string title;
         private string content;
-        private float gains;
         private string target;
         private string color;
 

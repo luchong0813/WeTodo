@@ -72,8 +72,6 @@ namespace WeTodoForWindows.ViewModels
             MenuBars.Add(new MenuBar { Icon = "Home", Title = "主页", NameSpace = "HomeView" });
             MenuBars.Add(new MenuBar { Icon = "FormatListChecks", Title = "待办事项", NameSpace = "TodoView" });
             MenuBars.Add(new MenuBar { Icon = "Book", Title = "备忘录", NameSpace = "MemoView" });
-            //MenuBars.Add(new MenuBar { Icon = "ArchiveStar", Title = "收集箱", NameSpace = "InboxView" });
-            //MenuBars.Add(new MenuBar { Icon = "BookCheck", Title = "数据复盘", NameSpace = "DataCheckingView" });
             MenuBars.Add(new MenuBar { Icon = "Cog", Title = "系统设置", NameSpace = "SettingView" });
         }
     }

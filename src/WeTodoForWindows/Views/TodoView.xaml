@@ -14,23 +14,37 @@
         <md:DrawerHost.RightDrawerContent>
             <DockPanel Width="300" LastChildFill="False">
                 <TextBlock
+                    Padding="20,10"
                     DockPanel.Dock="Top"
                     FontSize="20"
                     FontWeight="Bold"
                     Text="添加待办事件" />
 
-                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                    <TextBlock Text="状态：" />
+                <StackPanel
+                    Margin="20,10"
+                    DockPanel.Dock="Top"
+                    Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="状态：" />
                     <ComboBox SelectedIndex="0">
                         <ComboBoxItem>待办</ComboBoxItem>
                         <ComboBoxItem>已完成</ComboBoxItem>
                     </ComboBox>
                 </StackPanel>
 
-                <TextBox md:HintAssist.Hint="请输入待办概要" DockPanel.Dock="Top" />
-                <TextBox md:HintAssist.Hint="请输入待办内容" DockPanel.Dock="Top" />
+                <TextBox
+                    Margin="20,10"
+                    md:HintAssist.Hint="请输入待办概要"
+                    DockPanel.Dock="Top" />
+                <TextBox
+                    MinHeight="100"
+                    Margin="20,10"
+                    md:HintAssist.Hint="请输入待办内容"
+                    DockPanel.Dock="Top" />
 
-                <Button Content="立即添加" DockPanel.Dock="Top" />
+                <Button
+                    Margin="20"
+                    Content="立即添加"
+                    DockPanel.Dock="Top" />
             </DockPanel>
         </md:DrawerHost.RightDrawerContent>
 
@@ -74,68 +88,69 @@
             </Button>
 
             <!--  列表部分  -->
-            <ItemsControl
-                Grid.Row="1"
-                HorizontalAlignment="Center"
-                ItemsSource="{Binding TodoDtos}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Grid
-                            Width="220"
-                            Height="180"
-                            MaxWidth="250"
-                            MaxHeight="200"
-                            Margin="8">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto" />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
+            <ScrollViewer Grid.Row="1">
+                <ItemsControl HorizontalAlignment="Center" ItemsSource="{Binding TodoDtos}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <md:TransitioningContent OpeningEffect="{md:TransitionEffect Kind=ExpandIn}">
+                                <Grid
+                                    Width="220"
+                                    Height="180"
+                                    MaxWidth="250"
+                                    MaxHeight="200"
+                                    Margin="8">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
 
-                            <md:PopupBox HorizontalAlignment="Right" Panel.ZIndex="1">
-                                <Button Content="删除" />
-                            </md:PopupBox>
+                                    <md:PopupBox HorizontalAlignment="Right" Panel.ZIndex="1">
+                                        <Button Content="删除" />
+                                    </md:PopupBox>
 
-                            <Border
-                                Grid.RowSpan="2"
-                                Background="#10B138"
-                                CornerRadius="3" />
-                            <TextBlock
-                                Padding="10,5"
-                                FontSize="16"
-                                FontWeight="Bold"
-                                Text="{Binding Title}" />
-                            <TextBlock
-                                Grid.Row="1"
-                                Padding="10,5"
-                                Text="{Binding Content}" />
+                                    <Border
+                                        Grid.RowSpan="2"
+                                        Background="#10B138"
+                                        CornerRadius="3" />
+                                    <TextBlock
+                                        Padding="10,5"
+                                        FontSize="16"
+                                        FontWeight="Bold"
+                                        Text="{Binding Title}" />
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Padding="10,5"
+                                        Text="{Binding Content}" />
 
-                            <Canvas Grid.RowSpan="2" ClipToBounds="True">
-                                <Border
-                                    Canvas.Top="50"
-                                    Canvas.Right="-50"
-                                    Width="120"
-                                    Height="120"
-                                    Background="White"
-                                    CornerRadius="100"
-                                    Opacity=".1" />
-                                <Border
-                                    Canvas.Top="120"
-                                    Canvas.Right="-30"
-                                    Width="120"
-                                    Height="120"
-                                    Background="White"
-                                    CornerRadius="100"
-                                    Opacity=".1" />
-                            </Canvas>
-                        </Grid>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
+                                    <Canvas Grid.RowSpan="2" ClipToBounds="True">
+                                        <Border
+                                            Canvas.Top="50"
+                                            Canvas.Right="-50"
+                                            Width="120"
+                                            Height="120"
+                                            Background="White"
+                                            CornerRadius="100"
+                                            Opacity=".1" />
+                                        <Border
+                                            Canvas.Top="120"
+                                            Canvas.Right="-30"
+                                            Width="120"
+                                            Height="120"
+                                            Background="White"
+                                            CornerRadius="100"
+                                            Opacity=".1" />
+                                    </Canvas>
+                                </Grid>
+                            </md:TransitioningContent>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
         </Grid>
     </md:DrawerHost>
 
