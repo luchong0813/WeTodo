@@ -79,6 +79,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Common\Converters\ColorToBrushConverter.cs" />
     <Compile Include="Extensions\PrismManager.cs" />
     <Compile Include="Models\BaseDto.cs" />
     <Compile Include="Models\MemoDto.cs" />
