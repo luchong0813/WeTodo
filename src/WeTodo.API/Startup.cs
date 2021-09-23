@@ -7,12 +7,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 using WeTodo.API.DataContext;
+using WeTodo.API.Repository;
 
 namespace WeTodo.API
 {
@@ -32,7 +34,12 @@ namespace WeTodo.API
             {
                 var connectionStr = Configuration.GetConnectionString("TodoConnection");
                 option.UseSqlite(connectionStr);
-            });
+            }).AddUnitOfWork<ToDoContext>()
+            //使用工作单元添加仓储绑定
+            //工作单元开源代码：https://github.com/Arch/UnitOfWork
+            .AddCustomRepository<ToDo, TodoRepository>()
+            .AddCustomRepository<Memo, MemoRepository>()
+            .AddCustomRepository<User, UserRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

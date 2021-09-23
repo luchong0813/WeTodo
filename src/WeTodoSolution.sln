@@ -5,7 +5,9 @@ VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeTodoForWindows", "WeTodoForWindows\WeTodoForWindows.csproj", "{71ADCFF1-B408-487C-9E8E-75D19D89BABA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeTodo.API", "WeTodo.API\WeTodo.API.csproj", "{6AB228FE-02CF-462F-B919-CF7CA490B0E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeTodo.API", "WeTodo.API\WeTodo.API.csproj", "{6AB228FE-02CF-462F-B919-CF7CA490B0E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeToDo.Share", "WeToDo.Share\WeToDo.Share.csproj", "{FD9678D4-111F-46BB-9B76-98B21846F31D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{6AB228FE-02CF-462F-B919-CF7CA490B0E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AB228FE-02CF-462F-B919-CF7CA490B0E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AB228FE-02CF-462F-B919-CF7CA490B0E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD9678D4-111F-46BB-9B76-98B21846F31D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD9678D4-111F-46BB-9B76-98B21846F31D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD9678D4-111F-46BB-9B76-98B21846F31D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD9678D4-111F-46BB-9B76-98B21846F31D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
