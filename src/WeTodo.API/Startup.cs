@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 
 using WeTodo.API.DataContext;
 using WeTodo.API.Repository;
+using WeTodo.API.Service;
 
 namespace WeTodo.API
 {
@@ -40,6 +41,8 @@ namespace WeTodo.API
             .AddCustomRepository<ToDo, TodoRepository>()
             .AddCustomRepository<Memo, MemoRepository>()
             .AddCustomRepository<User, UserRepository>();
+
+            services.AddTransient<ITodoService, TodoService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
