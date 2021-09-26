@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 
 using WeTodo.API.DataContext;
 
+using WeToDo.Share.Dtos;
+
 namespace WeTodo.API.Service
 {
-    public interface ITodoService:IBaseService<ToDo>
+    public interface ITodoService:IBaseService<TodoDto>
     {
     }
 }

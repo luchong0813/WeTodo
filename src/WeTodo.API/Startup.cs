@@ -1,5 +1,7 @@
 
 
+using AutoMapper;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +18,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using WeTodo.API.DataContext;
+using WeTodo.API.Extenions;
 using WeTodo.API.Repository;
 using WeTodo.API.Service;
 
@@ -45,6 +48,13 @@ namespace WeTodo.API
             .AddCustomRepository<User, UserRepository>();
 
             services.AddTransient<ITodoService, TodoService>();
+
+            //×¢²áAutoMapper
+            var autoMapperConfig = new MapperConfiguration(config =>
+            {
+                config.AddProfile(new AutoMapperProFile());
+            });
+            services.AddSingleton(autoMapperConfig.CreateMapper());
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
