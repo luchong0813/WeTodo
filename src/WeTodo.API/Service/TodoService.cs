@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿
+using System;
 using System.Threading.Tasks;
 
 using WeTodo.API.Connon.Utils;
 using WeTodo.API.DataContext;
-using WeTodo.API.UnitOfWork;
+
+using WeToDo.Api;
 
 namespace WeTodo.API.Service
 {
@@ -38,7 +38,12 @@ namespace WeTodo.API.Service
             try
             {
                 var repository = unitOfWork.GetRepository<ToDo>();
-                await repository.GetFirstOrDefaultAsync(predicate: x => x.Id.Equals(id));
+               var todo= await repository.GetFirstOrDefaultAsync(predicate: x => x.Id.Equals(id));
+                if (todo==null)
+                {
+                    return new ApiResult((int)ResultEnum.FAIL, $"查无此数据，无法操作");
+                }
+                repository.Delete(todo);
                 if (await unitOfWork.SaveChangesAsync() > 0)
                     return new ApiResult();
                 return new ApiResult((int)ResultEnum.FAIL, "操作失败");
@@ -51,7 +56,16 @@ namespace WeTodo.API.Service
 
         public async Task<ApiResult> GetAllAsync()
         {
-            return new ApiResult(await unitOfWork.GetRepository<ToDo>().GetAllAsync());
+            try
+            {
+               var todos= await unitOfWork.GetRepository<ToDo>().GetAllAsync();
+                return new ApiResult(todos);
+            }
+            catch (Exception ex)
+            {
+                return new ApiResult((int)ResultEnum.FAIL, ex.Message);
+            }
+            
         }
 
         public async Task<ApiResult> GetByIdAsync(int id)
@@ -78,6 +92,7 @@ namespace WeTodo.API.Service
                 todo.Status = model.Status;
                 todo.UpdateDate = DateTime.Now;
 
+                repository.Update(todo);
 
                 if (await unitOfWork.SaveChangesAsync() > 0)
                     return new ApiResult(model);

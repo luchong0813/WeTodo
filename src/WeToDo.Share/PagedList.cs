@@ -1,57 +1,63 @@
-﻿// Copyright (c) Arch team. All rights reserved.
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace WeTodo.Share
+﻿namespace WeToDo.Shared.Contact
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     /// <summary>
     /// Represents the default implementation of the <see cref="IPagedList{T}"/> interface.
     /// </summary>
-    /// <typeparam name="T">The type of the data to page</typeparam>
+    /// <typeparam name="T">The type of the data to page 页类型的数据</typeparam>
     public class PagedList<T> : IPagedList<T>
     {
         /// <summary>
         /// Gets or sets the index of the page.
+        /// 获得页的起始页
         /// </summary>
         /// <value>The index of the page.</value>
         public int PageIndex { get; set; }
         /// <summary>
         /// Gets or sets the size of the page.
+        /// 获得页大小
         /// </summary>
         /// <value>The size of the page.</value>
         public int PageSize { get; set; }
         /// <summary>
         /// Gets or sets the total count.
+        /// 获得总数
         /// </summary>
         /// <value>The total count.</value>
         public int TotalCount { get; set; }
         /// <summary>
         /// Gets or sets the total pages.
+        /// 获得总页数
         /// </summary>
         /// <value>The total pages.</value>
         public int TotalPages { get; set; }
         /// <summary>
         /// Gets or sets the index from.
+        /// 从索引起
         /// </summary>
         /// <value>The index from.</value>
         public int IndexFrom { get; set; }
 
         /// <summary>
         /// Gets or sets the items.
+        /// 数据
         /// </summary>
         /// <value>The items.</value>
         public IList<T> Items { get; set; }
 
         /// <summary>
         /// Gets the has previous page.
+        /// 获取前一页
         /// </summary>
         /// <value>The has previous page.</value>
         public bool HasPreviousPage => PageIndex - IndexFrom > 0;
 
         /// <summary>
         /// Gets the has next page.
+        /// 获取下一页
         /// </summary>
         /// <value>The has next page.</value>
         public bool HasNextPage => PageIndex - IndexFrom + 1 < TotalPages;
