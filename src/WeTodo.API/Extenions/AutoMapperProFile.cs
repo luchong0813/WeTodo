@@ -15,6 +15,7 @@ namespace WeTodo.API.Extenions
         {
             CreateMap<ToDo,TodoDto>().ReverseMap();
             CreateMap<Memo, MemoDto>().ReverseMap();
+            CreateMap<User, UserDto>().ReverseMap();
         }
     }
 }

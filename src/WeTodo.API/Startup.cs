@@ -49,6 +49,7 @@ namespace WeTodo.API
 
             services.AddTransient<ITodoService, TodoService>();
             services.AddTransient<IMemoService, MemoService>();
+            services.AddTransient<IAccountService, AccountService>();
 
             //×¢²áAutoMapper
             var autoMapperConfig = new MapperConfiguration(config =>

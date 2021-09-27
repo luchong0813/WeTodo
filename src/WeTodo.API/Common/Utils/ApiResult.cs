@@ -36,7 +36,7 @@ namespace WeTodo.API.Connon.Utils
         /// </summary>
         /// <param name="message"></param>
         /// <param name="code"></param>
-        public ApiResult(int code,string message)
+        public ApiResult(int code, string message)
         {
             Code = code;
             Message = message;
@@ -65,8 +65,14 @@ namespace WeTodo.API.Connon.Utils
         [Description("操作失败")]
         FAIL = -1,
         [Description("未登录")]
-        UN_LOGIN =-999,
+        UN_LOGIN = -999,
         [Description("操作成功")]
         SUCCESS = 1,
+        [Description("账号密码错误")]
+        ERROR_USER = 2,
+        [Description("账户已存在")]
+        ACCOUNT_EXIST = 3,
+        [Description("账户不存在")]
+        ACCOUNT_NOEXIST = 4
     }
 }
