@@ -48,6 +48,7 @@ namespace WeTodo.API
             .AddCustomRepository<User, UserRepository>();
 
             services.AddTransient<ITodoService, TodoService>();
+            services.AddTransient<IMemoService, MemoService>();
 
             //×¢²áAutoMapper
             var autoMapperConfig = new MapperConfiguration(config =>

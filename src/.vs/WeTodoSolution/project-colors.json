@@ -1,0 +1,21 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "6ab228fe-02cf-462f-b919-cf7ca490b0e1": {
+      "ProjectGuid": "6ab228fe-02cf-462f-b919-cf7ca490b0e1",
+      "DisplayName": "WeTodo.API",
+      "ColorIndex": 0
+    },
+    "fd9678d4-111f-46bb-9b76-98b21846f31d": {
+      "ProjectGuid": "fd9678d4-111f-46bb-9b76-98b21846f31d",
+      "DisplayName": "WeToDo.Share",
+      "ColorIndex": 1
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "杂项文件",
+      "ColorIndex": -1
+    }
+  },
+  "NextColorIndex": 2
+}

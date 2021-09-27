@@ -14,6 +14,7 @@ namespace WeTodo.API.Extenions
         public AutoMapperProFile()
         {
             CreateMap<ToDo,TodoDto>().ReverseMap();
+            CreateMap<Memo, MemoDto>().ReverseMap();
         }
     }
 }

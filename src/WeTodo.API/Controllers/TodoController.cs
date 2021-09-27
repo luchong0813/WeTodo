@@ -10,6 +10,7 @@ using WeTodo.API.DataContext;
 using WeTodo.API.Service;
 
 using WeToDo.Share.Dtos;
+using WeToDo.Share.Parameters;
 
 namespace WeTodo.API.Controllers
 {
@@ -28,7 +29,7 @@ namespace WeTodo.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ApiResult> Get() => await todoService.GetAllAsync();
+        public async Task<ApiResult> Get([FromQuery] QueryParameter param) => await todoService.GetAllAsync(param);
 
         [HttpGet]
         public async Task<ApiResult> GetById(int id) => await todoService.GetByIdAsync(id);
