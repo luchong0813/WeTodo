@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace WeTodo.API.Common.Utils
+namespace WeTodo.Share.Common.Utils
 {
     public class MD5Util
     {
