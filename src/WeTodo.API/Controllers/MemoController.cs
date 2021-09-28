@@ -27,7 +27,7 @@ namespace WeTodo.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ApiResult> Get([FromQuery] QueryParameter param) => await memoService.GetAllAsync(param);
+        public async Task<ApiResult> GetAll([FromQuery] QueryParameter param) => await memoService.GetAllAsync(param);
 
         [HttpGet]
         public async Task<ApiResult> GetById(int id) => await memoService.GetByIdAsync(id);

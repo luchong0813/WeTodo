@@ -29,10 +29,10 @@ namespace WeTodo.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ApiResult> Get([FromQuery] QueryParameter param) => await todoService.GetAllAsync(param);
+        public async Task<ApiResult> GetAll([FromQuery] QueryParameter param) => await todoService.GetAllAsync(param);
 
         [HttpGet]
-        public async Task<ApiResult> GetById(int id) => await todoService.GetByIdAsync(id);
+        public async Task<ApiResult> Get(int id) => await todoService.GetByIdAsync(id);
 
         [HttpPost]
         public async Task<ApiResult> Add([FromBody] TodoDto model) => await todoService.AddAsync(model);
