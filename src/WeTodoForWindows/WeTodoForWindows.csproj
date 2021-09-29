@@ -89,15 +89,15 @@
     <Compile Include="Common\Converters\ColorToBrushConverter.cs" />
     <Compile Include="Extensions\PrismManager.cs" />
     <Compile Include="Models\BaseDto.cs" />
-    <Compile Include="Models\MemoDto.cs" />
     <Compile Include="Models\MenuBar.cs" />
     <Compile Include="Models\TaskBar.cs" />
-    <Compile Include="Models\TodoDto.cs" />
     <Compile Include="Service\BaseRequest.cs" />
     <Compile Include="Service\BaseService.cs" />
     <Compile Include="Service\HttpRestClient.cs" />
     <Compile Include="Service\IBaseService.cs" />
+    <Compile Include="Service\IMemoService.cs" />
     <Compile Include="Service\ITodoService.cs" />
+    <Compile Include="Service\MemoService.cs" />
     <Compile Include="Service\TodoService.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />

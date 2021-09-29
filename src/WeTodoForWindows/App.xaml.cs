@@ -30,7 +30,9 @@ namespace WeTodoForWindows
         {
             containerRegistry.GetContainer().Register<HttpRestClient>(made: Parameters.Of.Type<string>(serviceKey: "webUrl"));
             containerRegistry.GetContainer().RegisterInstance(@"http://localhost:64576/", serviceKey: "webUrl");
+
             containerRegistry.Register<ITodoService, TodoService>();
+            containerRegistry.Register<IMemoService, MemoService>();
 
             containerRegistry.RegisterForNavigation<HomeView, HomeViewModel>();
             containerRegistry.RegisterForNavigation<TodoView, TodoViewModel>();

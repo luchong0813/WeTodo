@@ -1,25 +1,28 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-using WeTodoForWindows.Models;
+using WeTodo.Share.Common.Utils;
+
+using WeToDo.Share.Dtos;
+using WeToDo.Share.Parameters;
+
+using WeTodoForWindows.Service;
 
 namespace WeTodoForWindows.ViewModels
 {
-   public class MemoViewModel : BindableBase
+    public class MemoViewModel : BindableBase
     {
-        public MemoViewModel()
+        private ObservableCollection<MemoDto> memoDtos;
+        private readonly IMemoService service;
+
+        public MemoViewModel(IMemoService service)
         {
             MemoDtos = new ObservableCollection<MemoDto>();
-            CreateTest();
-
             AddCommand = new DelegateCommand(() => IsRightDraweOpen = true);
+            this.service = service;
+            CreateTest();
         }
 
         private bool isRightDraweOpen;
@@ -33,19 +36,23 @@ namespace WeTodoForWindows.ViewModels
 
         public DelegateCommand AddCommand { get; private set; }
 
-        private void CreateTest()
+        private async void CreateTest()
         {
-            for (int i = 0; i < 20; i++)
+            var memos = await service.GetAllAsync(new QueryParameter
             {
-                MemoDtos.Add(new MemoDto
+                PageNum = 0,
+                PageSize = 100
+            });
+            if (memos.Code==(int)ResultEnum.SUCCESS)
+            {
+                foreach (var item in memos.Data.Items)
                 {
-                    Title = "标题" + i,
-                    Content = "测试数据.."
-                });
+                    MemoDtos.Add(item);
+                }
+
             }
         }
 
-        private ObservableCollection<MemoDto> memoDtos;
         public ObservableCollection<MemoDto> MemoDtos
         {
             get { return memoDtos; }

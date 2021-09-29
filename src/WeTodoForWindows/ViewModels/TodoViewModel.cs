@@ -42,7 +42,7 @@ namespace WeTodoForWindows.ViewModels
             var todos = await service.GetAllAsync(new QueryParameter()
             {
                 PageNum = 0,
-                PageSize = 10
+                PageSize = 100
             });
             if (todos.Code == (int)ResultEnum.SUCCESS)
             {
