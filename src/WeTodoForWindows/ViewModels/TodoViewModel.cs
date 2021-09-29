@@ -1,25 +1,29 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-using WeTodoForWindows.Models;
+using WeTodo.Share.Common.Utils;
+
+using WeToDo.Share.Dtos;
+using WeToDo.Share.Parameters;
+
+using WeTodoForWindows.Service;
 
 namespace WeTodoForWindows.ViewModels
 {
     public class TodoViewModel : BindableBase
     {
-        public TodoViewModel()
+        private ObservableCollection<TodoDto> todoDtos;
+        private readonly ITodoService service;
+
+        public TodoViewModel(ITodoService service)
         {
             TodoDtos = new ObservableCollection<TodoDto>();
-            CreateTest();
-
             AddCommand = new DelegateCommand(() => IsRightDraweOpen = true);
+            this.service = service;
+
+            CreateTest();
         }
 
         private bool isRightDraweOpen;
@@ -33,23 +37,27 @@ namespace WeTodoForWindows.ViewModels
 
         public DelegateCommand AddCommand { get; private set; }
 
-        private void CreateTest()
+        private async void CreateTest()
         {
-            for (int i = 0; i < 20; i++)
+            var todos = await service.GetAllAsync(new QueryParameter()
             {
-                TodoDtos.Add(new TodoDto
+                PageNum = 0,
+                PageSize = 10
+            });
+            if (todos.Code == (int)ResultEnum.SUCCESS)
+            {
+                TodoDtos.Clear();
+                foreach (var item in todos.Data.Items)
                 {
-                    Title="标题"+i,
-                    Content="测试数据.."
-                });
+                    TodoDtos.Add(item);
+                }
             }
         }
 
-        private ObservableCollection<TodoDto> todoDtos;
         public ObservableCollection<TodoDto> TodoDtos
         {
             get { return todoDtos; }
-            set { todoDtos = value;RaisePropertyChanged(); }
+            set { todoDtos = value; RaisePropertyChanged(); }
         }
 
     }

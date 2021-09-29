@@ -55,9 +55,9 @@ namespace WeTodo.Share.Common.Utils
             Data = data;
         }
 
-        public int Code { get; private set; }
-        public string Message { get; private set; }
-        public object Data { get; private set; }
+        public int Code { get;  set; }
+        public string Message { get;  set; }
+        public object Data { get;  set; }
     }
 
     public enum ResultEnum

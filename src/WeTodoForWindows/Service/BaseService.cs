@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 using WeToDo.Share.Common.Utils;
 using WeToDo.Share.Parameters;
+using WeToDo.Shared.Contact;
 
 namespace WeTodoForWindows.Service
 {
@@ -43,16 +44,16 @@ namespace WeTodoForWindows.Service
             return await client.ExecuteAsync<TEntity>(request);
         }
 
-        public async Task<ApiResponse<TEntity>> GetAllAsync(QueryParameter parameter)
+        public async Task<ApiResponse<PagedList<TEntity>>> GetAllAsync(QueryParameter parameter)
         {
             BaseRequest request = new BaseRequest
             {
                 Method = Method.GET,
                 Route = $"api/{serviceName}/GetAll?pageIndex={parameter.PageNum}&" +
-                $"pageSize={parameter.PageSize}" +
+                $"pageSize={parameter.PageSize}&" +
                 $"serach={parameter.Serach}"
             };
-            return await client.ExecuteAsync<TEntity>(request);
+            return await client.ExecuteAsync<PagedList<TEntity>>(request);
         }
 
         public async Task<ApiResponse<TEntity>> GetFirstOfDefaultAsync(int id)

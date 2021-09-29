@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using WeToDo.Share.Common.Utils;
 using WeToDo.Share.Parameters;
+using WeToDo.Shared.Contact;
 
 namespace WeTodoForWindows.Service
 {
@@ -15,6 +16,6 @@ namespace WeTodoForWindows.Service
         Task<ApiResponse<TEntity>> UpdateAsync(TEntity entity);
         Task<ApiResponse<TEntity>> DeleteAsync(int id);
         Task<ApiResponse<TEntity>> GetFirstOfDefaultAsync(int id);
-        Task<ApiResponse<TEntity>> GetAllAsync(QueryParameter parameter);
+        Task<ApiResponse<PagedList<TEntity>>> GetAllAsync(QueryParameter parameter);
     }
 }

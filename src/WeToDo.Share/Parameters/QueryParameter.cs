@@ -13,8 +13,7 @@ namespace WeToDo.Share.Parameters
         public int PageNum
         {
             get { return pageNum; }
-            //因为是从0开始，所以减去1
-            set { pageNum = value - 1; }
+            set { pageNum = value; }
         }
 
 
