@@ -26,7 +26,7 @@
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="-1" />
     </WindowChrome.WindowChrome>
-    <materialDesign:DialogHost DialogTheme="Inherit" Identifier="RootDialog">
+    <materialDesign:DialogHost DialogTheme="Inherit" Identifier="RootDialog" x:Name="DialogHost">
 
         <materialDesign:DrawerHost
             x:Name="drawerHost"

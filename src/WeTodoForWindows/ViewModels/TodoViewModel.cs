@@ -1,7 +1,10 @@
 ﻿using Prism.Commands;
+using Prism.Ioc;
 using Prism.Mvvm;
+using Prism.Regions;
 
 using System.Collections.ObjectModel;
+using System.Threading;
 
 using WeTodo.Share.Common.Utils;
 
@@ -12,18 +15,16 @@ using WeTodoForWindows.Service;
 
 namespace WeTodoForWindows.ViewModels
 {
-    public class TodoViewModel : BindableBase
+    public class TodoViewModel : NavigationViewModel
     {
         private ObservableCollection<TodoDto> todoDtos;
         private readonly ITodoService service;
 
-        public TodoViewModel(ITodoService service)
+        public TodoViewModel(ITodoService service, IContainerProvider container) : base(container)
         {
             TodoDtos = new ObservableCollection<TodoDto>();
             AddCommand = new DelegateCommand(() => IsRightDraweOpen = true);
             this.service = service;
-
-            CreateTest();
         }
 
         private bool isRightDraweOpen;
@@ -37,8 +38,13 @@ namespace WeTodoForWindows.ViewModels
 
         public DelegateCommand AddCommand { get; private set; }
 
-        private async void CreateTest()
+        /// <summary>
+        /// 获取数据
+        /// </summary>
+        private async void GetDataAsync()
         {
+            UpdateLoading(true);
+
             var todos = await service.GetAllAsync(new QueryParameter()
             {
                 PageNum = 0,
@@ -52,6 +58,15 @@ namespace WeTodoForWindows.ViewModels
                     TodoDtos.Add(item);
                 }
             }
+
+            UpdateLoading(false);
+
+        }
+
+        public override void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            base.OnNavigatedTo(navigationContext);
+            GetDataAsync();
         }
 
         public ObservableCollection<TodoDto> TodoDtos

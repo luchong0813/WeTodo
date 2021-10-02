@@ -11,8 +11,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+
 using Prism.Events;
+
 using WeTodoForWindows.Common.Events;
+using WeTodoForWindows.Extensions;
 
 namespace WeTodoForWindows.Views
 {
@@ -25,6 +28,17 @@ namespace WeTodoForWindows.Views
         {
             InitializeComponent();
             eventAggregator.GetEvent<StringMessageEvent>().Subscribe(Execute);
+
+            //注册加载数据窗口
+            eventAggregator.Register(arg =>
+            {
+                DialogHost.DialogContent = arg.IsOpen;
+                if (DialogHost.IsOpen)
+                {
+                    DialogHost.DialogContent = new LoadingView();
+                }
+            });
+
             //当菜单列表状态发声改变手动去关闭左侧导航
             menuBar.SelectionChanged += (s, e) =>
             {
