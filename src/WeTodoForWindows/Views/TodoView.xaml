@@ -6,6 +6,7 @@
     xmlns:local="clr-namespace:WeTodoForWindows.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -25,7 +26,7 @@
                     DockPanel.Dock="Top"
                     Orientation="Horizontal">
                     <TextBlock VerticalAlignment="Center" Text="状态：" />
-                    <ComboBox SelectedIndex="0">
+                    <ComboBox SelectedIndex="{Binding CurrentTodo.Status}">
                         <ComboBoxItem>待办</ComboBoxItem>
                         <ComboBoxItem>已完成</ComboBoxItem>
                     </ComboBox>
@@ -33,10 +34,12 @@
 
                 <TextBox
                     Margin="20,10"
+                    Text="{Binding CurrentTodo.Title}"
                     md:HintAssist.Hint="请输入待办概要"
                     DockPanel.Dock="Top" />
                 <TextBox
                     MinHeight="100"
+                    Text="{Binding CurrentTodo.Content}"
                     Margin="20,10"
                     md:HintAssist.Hint="请输入待办内容"
                     DockPanel.Dock="Top" />
@@ -44,6 +47,7 @@
                 <Button
                     Margin="20"
                     Content="立即添加"
+                    Command="{Binding ExecuteCommand}" CommandParameter="Save"
                     DockPanel.Dock="Top" />
             </DockPanel>
         </md:DrawerHost.RightDrawerContent>
@@ -59,9 +63,14 @@
             <StackPanel Margin="15,0,0,0" Orientation="Horizontal">
                 <TextBox
                     Width="250"
+                    Text="{Binding Serach,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                     VerticalAlignment="Center"
                     md:HintAssist.Hint="查找待办事项..."
-                    md:TextFieldAssist.HasClearButton="True" />
+                    md:TextFieldAssist.HasClearButton="True" >
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Enter" Command="{Binding ExecuteCommand}" CommandParameter="Query"/>
+                    </TextBox.InputBindings>
+                </TextBox>
                 <TextBlock
                     Margin="10,0"
                     VerticalAlignment="Center"
@@ -75,7 +84,7 @@
             <Button
                 Margin="10,5"
                 HorizontalAlignment="Right"
-                Command="{Binding AddCommand}">
+                Command="{Binding ExecuteCommand}" CommandParameter="Add">
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
                         <md:PackIcon
@@ -99,6 +108,13 @@
                                     MaxWidth="250"
                                     MaxHeight="200"
                                     Margin="8">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseLeftButtonUp">
+                                            <i:InvokeCommandAction 
+                                                CommandParameter="{Binding}"
+                                                Command="{Binding DataContext.SelectedCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ItemsControl}}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto" />
                                         <RowDefinition />

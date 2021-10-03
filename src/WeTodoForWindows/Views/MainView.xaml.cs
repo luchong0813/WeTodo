@@ -32,7 +32,7 @@ namespace WeTodoForWindows.Views
             //注册加载数据窗口
             eventAggregator.Register(arg =>
             {
-                DialogHost.DialogContent = arg.IsOpen;
+                DialogHost.IsOpen = arg.IsOpen;
                 if (DialogHost.IsOpen)
                 {
                     DialogHost.DialogContent = new LoadingView();

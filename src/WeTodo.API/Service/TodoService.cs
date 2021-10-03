@@ -67,7 +67,7 @@ namespace WeTodo.API.Service
             try
             {
                 var todos = await unitOfWork.GetRepository<ToDo>().GetPagedListAsync(predicate: x =>
-                     string.IsNullOrEmpty(parameter.Serach) ? true : x.Title.Equals(parameter.Serach),
+                     string.IsNullOrEmpty(parameter.Serach) ? true : x.Title.Contains(parameter.Serach),
                     pageIndex: parameter.PageNum,
                     pageSize: parameter.PageSize,
                     orderBy: source => source.OrderByDescending(o => o.UpdateDate));
