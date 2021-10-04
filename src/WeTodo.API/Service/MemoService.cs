@@ -29,10 +29,10 @@ namespace WeTodo.API.Service
         {
             try
             {
-                var todo= mapper.Map<Memo>(model);
-                await unitOfWork.GetRepository<Memo>().InsertAsync(todo);
+                var memo= mapper.Map<Memo>(model);
+                await unitOfWork.GetRepository<Memo>().InsertAsync(memo);
                 if (await unitOfWork.SaveChangesAsync() > 0)
-                    return new ApiResult(model);
+                    return new ApiResult(memo);
                 return new ApiResult((int)ResultEnum.FAIL, "操作失败");
             }
             catch (Exception ex)

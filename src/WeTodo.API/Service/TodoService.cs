@@ -32,7 +32,7 @@ namespace WeTodo.API.Service
                 var todo= mapper.Map<ToDo>(model);
                 await unitOfWork.GetRepository<ToDo>().InsertAsync(todo);
                 if (await unitOfWork.SaveChangesAsync() > 0)
-                    return new ApiResult(model);
+                    return new ApiResult(todo);
                 return new ApiResult((int)ResultEnum.FAIL, "操作失败");
             }
             catch (Exception ex)
