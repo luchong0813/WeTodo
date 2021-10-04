@@ -89,7 +89,7 @@
 
                                     <Border
                                         Grid.RowSpan="2"
-                                        Background="#10B138"
+                                        Background="#00ae9d"
                                         CornerRadius="3" />
                                     <TextBlock
                                         Padding="10,5"

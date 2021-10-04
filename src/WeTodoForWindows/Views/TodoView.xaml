@@ -126,8 +126,21 @@
 
                                     <Border
                                         Grid.RowSpan="2"
-                                        Background="#10B138"
-                                        CornerRadius="3" />
+                                        CornerRadius="3" >
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <!--使用数据触发器对待办是否已完成进行区分-->
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Status}" Value="0">
+                                                        <Setter Property="Background" Value="#00ae9d"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Status}" Value="1">
+                                                        <Setter Property="Background" Value="#8a8c8e"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                    </Border>
                                     <TextBlock
                                         Padding="10,5"
                                         FontSize="16"
