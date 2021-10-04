@@ -7,9 +7,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:cv="clr-namespace:WeTodoForWindows.Common.Converters"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <cv:IntToVisibilityConverter x:Key="IntToVisibility"/>
+    </UserControl.Resources>
     <md:DrawerHost IsRightDrawerOpen="{Binding IsRightDraweOpen}">
         <!--  右侧添加待办  -->
         <md:DrawerHost.RightDrawerContent>
@@ -95,6 +99,11 @@
                     </StackPanel>
                 </Button.Content>
             </Button>
+
+            <StackPanel Grid.Row="1" VerticalAlignment="Center" Visibility="{Binding TodoDtos.Count,Converter={StaticResource IntToVisibility}}">
+                <Image Source="/Images/NotContent.png" Width="200" Height="200"/>
+                <TextBlock Text="尝试添加一些事件，以便在此处查看它们。" Margin="0 10" FontSize="18" HorizontalAlignment="Center"/>
+            </StackPanel>
 
             <!--  列表部分  -->
             <ScrollViewer Grid.Row="1">
