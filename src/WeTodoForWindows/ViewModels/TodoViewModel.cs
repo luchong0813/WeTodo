@@ -27,6 +27,7 @@ namespace WeTodoForWindows.ViewModels
             TodoDtos = new ObservableCollection<TodoDto>();
             ExecuteCommand = new DelegateCommand<string>(Execete);
             SelectedCommand = new DelegateCommand<TodoDto>(Selected);
+            DeleteCommand = new DelegateCommand<TodoDto>(DeleteTodo);
             this.service = service;
         }
 
@@ -61,6 +62,7 @@ namespace WeTodoForWindows.ViewModels
 
         public DelegateCommand<string> ExecuteCommand { get; private set; }
         public DelegateCommand<TodoDto> SelectedCommand { get; private set; }
+        public DelegateCommand<TodoDto> DeleteCommand { get; private set; }
 
         /// <summary>
         /// 获取数据
@@ -86,6 +88,18 @@ namespace WeTodoForWindows.ViewModels
 
             UpdateLoading(false);
 
+        }
+
+        private async void DeleteTodo(TodoDto obj)
+        {
+            var deleteResult = await service.DeleteAsync(obj.Id);
+            if (deleteResult.Code == (int)ResultEnum.SUCCESS) {
+                var todo = TodoDtos.FirstOrDefault(t => t.Id == obj.Id);
+                if (todo != null)
+                {
+                    TodoDtos.Remove(todo);
+                }
+            }
         }
 
         private void Execete(string obj)
@@ -149,7 +163,7 @@ namespace WeTodoForWindows.ViewModels
         /// </summary>
         private void Add()
         {
-            CurrentTodo=new TodoDto();
+            CurrentTodo = new TodoDto();
             IsRightDraweOpen = true;
         }
 
