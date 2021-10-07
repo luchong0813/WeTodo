@@ -19,7 +19,7 @@ namespace WeTodo.API.Service
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
-        public TodoService(IUnitOfWork unitOfWork,IMapper mapper)
+        public TodoService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
@@ -29,7 +29,7 @@ namespace WeTodo.API.Service
         {
             try
             {
-                var todo= mapper.Map<ToDo>(model);
+                var todo = mapper.Map<ToDo>(model);
                 await unitOfWork.GetRepository<ToDo>().InsertAsync(todo);
                 if (await unitOfWork.SaveChangesAsync() > 0)
                     return new ApiResult(todo);
@@ -46,8 +46,8 @@ namespace WeTodo.API.Service
             try
             {
                 var repository = unitOfWork.GetRepository<ToDo>();
-               var todo= await repository.GetFirstOrDefaultAsync(predicate: x => x.Id.Equals(id));
-                if (todo==null)
+                var todo = await repository.GetFirstOrDefaultAsync(predicate: x => x.Id.Equals(id));
+                if (todo == null)
                 {
                     return new ApiResult((int)ResultEnum.FAIL, $"查无此数据，无法操作");
                 }
@@ -80,9 +80,28 @@ namespace WeTodo.API.Service
 
         }
 
+        public async Task<ApiResult> GetAllAsync(TodoParmeter parameter)
+        {
+            try
+            {
+                var repository = unitOfWork.GetRepository<ToDo>();
+                var todos = await repository.GetPagedListAsync(predicate: x =>
+                     (string.IsNullOrWhiteSpace(parameter.Serach) ? true : x.Title.Contains(parameter.Serach)) &&
+                     (parameter.Status == 0 ? true : x.Status.Equals(parameter.Status)),
+                    pageIndex: parameter.PageNum,
+                    pageSize: parameter.PageSize,
+                    orderBy: source => source.OrderByDescending(o => o.UpdateDate));
+                return new ApiResult(todos);
+            }
+            catch (Exception ex)
+            {
+                return new ApiResult((int)ResultEnum.FAIL, ex.Message);
+            }
+        }
+
         public async Task<ApiResult> GetByIdAsync(int id)
         {
-            var todo= await unitOfWork
+            var todo = await unitOfWork
                 .GetRepository<ToDo>()
                 .GetFirstOrDefaultAsync(predicate: x => x.Id.Equals(id));
             return new ApiResult(todo);
@@ -92,7 +111,7 @@ namespace WeTodo.API.Service
         {
             try
             {
-                var dbTodo=mapper.Map<ToDo>(model);
+                var dbTodo = mapper.Map<ToDo>(model);
                 var repository = unitOfWork.GetRepository<ToDo>();
                 var todo = await repository.GetFirstOrDefaultAsync(predicate: x => x.Id.Equals(dbTodo.Id));
                 if (todo == null)

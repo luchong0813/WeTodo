@@ -25,11 +25,11 @@ namespace WeTodo.API.Controllers
 
         public TodoController(ITodoService todoService)
         {
-            this.todoService = todoService;
+            this.todoService = todoService; 
         }
 
         [HttpGet]
-        public async Task<ApiResult> GetAll([FromQuery] QueryParameter param) => await todoService.GetAllAsync(param);
+        public async Task<ApiResult> GetAll([FromQuery] TodoParmeter param) => await todoService.GetAllAsync(param);
 
         [HttpGet]
         public async Task<ApiResult> Get(int id) => await todoService.GetByIdAsync(id);

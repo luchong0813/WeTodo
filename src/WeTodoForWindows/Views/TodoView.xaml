@@ -79,7 +79,7 @@
                     Margin="10,0"
                     VerticalAlignment="Center"
                     Text="筛选：" />
-                <ComboBox SelectedIndex="0">
+                <ComboBox SelectedIndex="{Binding SelectedIndex}">
                     <ComboBoxItem>全部</ComboBoxItem>
                     <ComboBoxItem>待办</ComboBoxItem>
                     <ComboBoxItem>已完成</ComboBoxItem>
@@ -141,11 +141,11 @@
                                             <Style TargetType="Border">
                                                 <!--使用数据触发器对待办是否已完成进行区分-->
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Status}" Value="0">
+                                                    <DataTrigger Binding="{Binding Status}" Value="1">
                                                         <Setter Property="Background" Value="#00ae9d"/>
                                                     </DataTrigger>
-                                                    <DataTrigger Binding="{Binding Status}" Value="1">
-                                                        <Setter Property="Background" Value="#8a8c8e"/>
+                                                    <DataTrigger Binding="{Binding Status}" Value="2">
+                                                        <Setter Property="Background" Value="#999d9c"/>
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>

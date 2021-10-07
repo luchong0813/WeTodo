@@ -59,6 +59,18 @@ namespace WeTodoForWindows.ViewModels
             set { serach = value; RaisePropertyChanged(); }
         }
 
+        private int selectedIndex;
+        /// <summary>
+        /// 筛选选中项
+        /// </summary>
+
+        public int SelectedIndex
+        {
+            get { return selectedIndex; }
+            set { selectedIndex = value; RaisePropertyChanged(); }
+        }
+
+
 
         public DelegateCommand<string> ExecuteCommand { get; private set; }
         public DelegateCommand<TodoDto> SelectedCommand { get; private set; }
@@ -71,11 +83,12 @@ namespace WeTodoForWindows.ViewModels
         {
             UpdateLoading(true);
 
-            var todos = await service.GetAllAsync(new QueryParameter()
+            var todos = await service.GetAllFilterAsync(new TodoParmeter()
             {
                 PageNum = 0,
                 PageSize = 100,
-                Serach = Serach
+                Serach = Serach,
+                Status = SelectedIndex
             });
             if (todos.Code == (int)ResultEnum.SUCCESS)
             {
@@ -93,7 +106,8 @@ namespace WeTodoForWindows.ViewModels
         private async void DeleteTodo(TodoDto obj)
         {
             var deleteResult = await service.DeleteAsync(obj.Id);
-            if (deleteResult.Code == (int)ResultEnum.SUCCESS) {
+            if (deleteResult.Code == (int)ResultEnum.SUCCESS)
+            {
                 var todo = TodoDtos.FirstOrDefault(t => t.Id == obj.Id);
                 if (todo != null)
                 {
@@ -123,9 +137,12 @@ namespace WeTodoForWindows.ViewModels
             UpdateLoading(true);
             try
             {
+                //0:全部  1:待办  2:已完成
+
                 //ID大于0表示编辑，否则即添加
                 if (CurrentTodo.Id > 0)
                 {
+                    var stsatus = CurrentTodo.Status + 1;
                     var updateResult = await service.UpdateAsync(CurrentTodo);
                     if (updateResult.Code == (int)ResultEnum.SUCCESS)
                     {
@@ -134,13 +151,14 @@ namespace WeTodoForWindows.ViewModels
                         {
                             todo.Title = CurrentTodo.Title;
                             todo.Content = CurrentTodo.Content;
-                            todo.Status = CurrentTodo.Status;
+                            todo.Status = stsatus;
                         }
                     }
                     IsRightDraweOpen = false;
                 }
                 else
                 {
+                    CurrentTodo.Status += 1;
                     var addResult = await service.AddAsync(CurrentTodo);
                     if (addResult.Code == (int)ResultEnum.SUCCESS)
                     {
@@ -176,6 +194,7 @@ namespace WeTodoForWindows.ViewModels
                 if (todoResult.Code == (int)ResultEnum.SUCCESS)
                 {
                     CurrentTodo = todoResult.Data;
+                    currentTodo.Status -= 1;
                     IsRightDraweOpen = true;
                 }
             }

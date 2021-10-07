@@ -8,14 +8,10 @@ namespace WeToDo.Share.Parameters
 {
     public class QueryParameter
     {
-        private int pageNum;
-
-        public int PageNum
-        {
-            get { return pageNum; }
-            set { pageNum = value; }
-        }
-
+        /// <summary>
+        /// 页码
+        /// </summary>
+        public int PageNum { get; set; }
 
         /// <summary>
         /// 页条数
