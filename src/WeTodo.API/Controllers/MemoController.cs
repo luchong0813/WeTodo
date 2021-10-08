@@ -30,7 +30,7 @@ namespace WeTodo.API.Controllers
         public async Task<ApiResult> GetAll([FromQuery] QueryParameter param) => await memoService.GetAllAsync(param);
 
         [HttpGet]
-        public async Task<ApiResult> GetById(int id) => await memoService.GetByIdAsync(id);
+        public async Task<ApiResult> Get(int id) => await memoService.GetByIdAsync(id);
 
         [HttpPost]
         public async Task<ApiResult> Add([FromBody] MemoDto model) => await memoService.AddAsync(model);
