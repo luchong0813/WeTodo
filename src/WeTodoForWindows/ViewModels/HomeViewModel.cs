@@ -7,13 +7,16 @@ using System.Collections.ObjectModel;
 
 using WeToDo.Share.Dtos;
 
+using WeTodoForWindows.Common;
 using WeTodoForWindows.Models;
 
 namespace WeTodoForWindows.ViewModels
 {
     public class HomeViewModel : BindableBase
     {
-        public HomeViewModel(IDialogService dialogService)
+        private readonly IDialogHostService dialogService;
+
+        public HomeViewModel(IDialogHostService dialogService)
         {
             CreateTaskBars();
             ExecuteCommand = new DelegateCommand<string>(Exceute);
@@ -37,7 +40,6 @@ namespace WeTodoForWindows.ViewModels
         }
 
         private ObservableCollection<MemoDto> memoDtos;
-        private readonly IDialogService dialogService;
 
         public ObservableCollection<MemoDto> MemoDtos
         {
@@ -68,11 +70,11 @@ namespace WeTodoForWindows.ViewModels
 
         private void AddTodo()
         {
-            dialogService.ShowDialog("AddTodoView");
+            dialogService.ShowDialog("AddTodoView",null);
         }
         private void AddMemo()
         {
-            dialogService.ShowDialog("AddMemoView");
+            dialogService.ShowDialog("AddMemoView",null);
         }
 
     }

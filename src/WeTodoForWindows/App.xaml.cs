@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
+using WeTodoForWindows.Common;
 using WeTodoForWindows.Service;
 using WeTodoForWindows.ViewModels;
 using WeTodoForWindows.ViewModels.Dialogs;
@@ -50,8 +51,11 @@ namespace WeTodoForWindows
             containerRegistry.RegisterForNavigation<SkinView, SkinViewModel>();
             containerRegistry.RegisterForNavigation<AboutView,AboutViewModel>();
 
-            containerRegistry.RegisterDialog<AddTodoView, AddTodoViewModel>();
-            containerRegistry.RegisterDialog<AddMemoView, AddMemoViewModel>();
+            containerRegistry.RegisterForNavigation<AddTodoView, AddTodoViewModel>();
+            containerRegistry.RegisterForNavigation<AddMemoView, AddMemoViewModel>();
+
+            //注册自定义对话服务到容器中
+            containerRegistry.Register<IDialogHostService, DialogHostService>();
         }
     }
 }

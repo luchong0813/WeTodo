@@ -88,7 +88,10 @@
     </ApplicationDefinition>
     <Compile Include="Common\Converters\ColorToBrushConverter.cs" />
     <Compile Include="Common\Converters\IntToVisibilityConverter.cs" />
+    <Compile Include="Common\DialogHostService.cs" />
     <Compile Include="Common\Events\UpdateLoading.cs" />
+    <Compile Include="Common\IDialogHostAware.cs" />
+    <Compile Include="Common\IDialogHostService.cs" />
     <Compile Include="Extensions\DialogExtensions.cs" />
     <Compile Include="Extensions\PrismManager.cs" />
     <Compile Include="Models\BaseDto.cs" />
@@ -98,7 +101,7 @@
     <Compile Include="Service\BaseService.cs" />
     <Compile Include="Service\HttpRestClient.cs" />
     <Compile Include="Service\IBaseService.cs" />
-    <Compile Include="Service\IConfigureService.cs" />
+    <Compile Include="Common\IConfigureService.cs" />
     <Compile Include="Service\IMemoService.cs" />
     <Compile Include="Service\ITodoService.cs" />
     <Compile Include="Service\MemoService.cs" />
