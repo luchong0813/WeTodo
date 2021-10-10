@@ -10,10 +10,11 @@ using Prism.Regions;
 using WeTodoForWindows.Common.Events;
 using WeTodoForWindows.Extensions;
 using WeTodoForWindows.Models;
+using WeTodoForWindows.Service;
 
 namespace WeTodoForWindows.ViewModels
 {
-    public class MainViewModel
+    public class MainViewModel: IConfigureService
     {
         private readonly IRegionManager _regionManager;
         private IRegionNavigationJournal journal;
@@ -22,7 +23,6 @@ namespace WeTodoForWindows.ViewModels
         {
             _regionManager = regionManager;
             MenuBars = new ObservableCollection<MenuBar>();
-            CreateMenuBars();
 
             ExecuteCommand = new DelegateCommand<string>((arg) =>
             {
@@ -73,6 +73,15 @@ namespace WeTodoForWindows.ViewModels
             MenuBars.Add(new MenuBar { Icon = "FormatListChecks", Title = "待办事项", NameSpace = "TodoView" });
             MenuBars.Add(new MenuBar { Icon = "Book", Title = "备忘录", NameSpace = "MemoView" });
             MenuBars.Add(new MenuBar { Icon = "Cog", Title = "系统设置", NameSpace = "SettingView" });
+        }
+
+        /// <summary>
+        /// 配置应用初始化参数
+        /// </summary>
+        public void Configure()
+        {
+            CreateMenuBars();
+            _regionManager.Regions[PrismManager.MainViewRegionName].RequestNavigate("HomeView");
         }
     }
 }
