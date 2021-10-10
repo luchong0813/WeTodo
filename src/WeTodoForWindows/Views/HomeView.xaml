@@ -152,6 +152,8 @@
                         VerticalAlignment="Top"
                         DockPanel.Dock="Right"
                         Foreground="White"
+                        Command="{Binding ExecuteCommand}"
+                        CommandParameter="AddTodo"
                         Style="{StaticResource MaterialDesignFloatingActionAccentButton}">
                         <Button.Content>
                             <materialDesign:PackIcon Kind="Add" />
@@ -198,6 +200,8 @@
                         Height="30"
                         VerticalAlignment="Top"
                         DockPanel.Dock="Right"
+                        Command="{Binding ExecuteCommand}"
+                        CommandParameter="AddMemo"
                         Foreground="White"
                         Style="{StaticResource MaterialDesignFloatingActionAccentButton}">
                         <Button.Content>

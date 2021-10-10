@@ -104,6 +104,8 @@
     <Compile Include="Service\MemoService.cs" />
     <Compile Include="Service\TodoService.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\AddMemoViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\AddTodoViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MemoViewModel.cs" />
@@ -113,6 +115,12 @@
     <Compile Include="ViewModels\TodoViewModel.cs" />
     <Compile Include="Views\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\AddMemoView.xaml.cs">
+      <DependentUpon>AddMemoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\AddTodoView.xaml.cs">
+      <DependentUpon>AddTodoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
@@ -141,6 +149,14 @@
       <DependentUpon>TodoView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\AboutView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\AddMemoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\AddTodoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -12,7 +12,9 @@ using System.Windows;
 
 using WeTodoForWindows.Service;
 using WeTodoForWindows.ViewModels;
+using WeTodoForWindows.ViewModels.Dialogs;
 using WeTodoForWindows.Views;
+using WeTodoForWindows.Views.Dialogs;
 
 namespace WeTodoForWindows
 {
@@ -47,6 +49,9 @@ namespace WeTodoForWindows
             containerRegistry.RegisterForNavigation<SettingView, SettingViewModel>();
             containerRegistry.RegisterForNavigation<SkinView, SkinViewModel>();
             containerRegistry.RegisterForNavigation<AboutView,AboutViewModel>();
+
+            containerRegistry.RegisterDialog<AddTodoView, AddTodoViewModel>();
+            containerRegistry.RegisterDialog<AddMemoView, AddMemoViewModel>();
         }
     }
 }
