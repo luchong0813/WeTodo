@@ -112,6 +112,7 @@
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MemoViewModel.cs" />
+    <Compile Include="ViewModels\MsgViewModel.cs" />
     <Compile Include="ViewModels\NavigationViewModel.cs" />
     <Compile Include="ViewModels\SettingViewModel.cs" />
     <Compile Include="ViewModels\SkinViewModel.cs" />
@@ -141,6 +142,9 @@
     <Compile Include="Common\Events\StringMessageEvent.cs" />
     <Compile Include="Views\MemoView.xaml.cs">
       <DependentUpon>MemoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MsgView.xaml.cs">
+      <DependentUpon>MsgView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingView.xaml.cs">
       <DependentUpon>SettingView.xaml</DependentUpon>
@@ -176,6 +180,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MemoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MsgView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

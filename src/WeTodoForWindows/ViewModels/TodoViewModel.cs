@@ -2,6 +2,7 @@
 using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Regions;
+using Prism.Services.Dialogs;
 
 using System;
 using System.Collections.ObjectModel;
@@ -13,6 +14,8 @@ using WeTodo.Share.Common.Utils;
 using WeToDo.Share.Dtos;
 using WeToDo.Share.Parameters;
 
+using WeTodoForWindows.Common;
+using WeTodoForWindows.Extensions;
 using WeTodoForWindows.Service;
 
 namespace WeTodoForWindows.ViewModels
@@ -21,6 +24,7 @@ namespace WeTodoForWindows.ViewModels
     {
         private ObservableCollection<TodoDto> todoDtos;
         private readonly ITodoService service;
+        private readonly IDialogHostService hostService;
 
         public TodoViewModel(ITodoService service, IContainerProvider container) : base(container)
         {
@@ -29,6 +33,7 @@ namespace WeTodoForWindows.ViewModels
             SelectedCommand = new DelegateCommand<TodoDto>(Selected);
             DeleteCommand = new DelegateCommand<TodoDto>(DeleteTodo);
             this.service = service;
+            hostService = container.Resolve<IDialogHostService>();
         }
 
         private bool isRightDraweOpen;
@@ -105,15 +110,33 @@ namespace WeTodoForWindows.ViewModels
 
         private async void DeleteTodo(TodoDto obj)
         {
-            var deleteResult = await service.DeleteAsync(obj.Id);
-            if (deleteResult.Code == (int)ResultEnum.SUCCESS)
+            try
             {
-                var todo = TodoDtos.FirstOrDefault(t => t.Id == obj.Id);
-                if (todo != null)
+                IDialogResult dialogResult = await hostService.Question("温馨提示", $"确定删除备忘录：{obj.Title} ?");
+                if (dialogResult.Result != ButtonResult.OK) return;
+
+                UpdateLoading(true);
+                var deleteResult = await service.DeleteAsync(obj.Id);
+                if (deleteResult.Code == (int)ResultEnum.SUCCESS)
                 {
-                    TodoDtos.Remove(todo);
+                    var todo = TodoDtos.FirstOrDefault(t => t.Id == obj.Id);
+                    if (todo != null)
+                    {
+                        TodoDtos.Remove(todo);
+                    }
                 }
+               
             }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                UpdateLoading(false);
+            }
+            
         }
 
         private void Execete(string obj)

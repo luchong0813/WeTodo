@@ -26,7 +26,7 @@ namespace WeTodoForWindows.ViewModels.Dialogs
             //检查DialogHost是否已打开（没打开就去调用关闭会抛异常）
             if (DialogHost.IsDialogOpen(DialogHostName))
             {
-                DialogHost.Close(DialogHostName);
+                DialogHost.Close(DialogHostName,new DialogResult(ButtonResult.Cancel));
             }
             
         }

@@ -12,8 +12,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-using Prism.Events;
+using MaterialDesignThemes.Wpf;
 
+using Prism.Events;
+using Prism.Services.Dialogs;
+
+using WeTodoForWindows.Common;
 using WeTodoForWindows.Common.Events;
 using WeTodoForWindows.Extensions;
 
@@ -24,7 +28,9 @@ namespace WeTodoForWindows.Views
     /// </summary>
     public partial class MainView : Window
     {
-        public MainView(IEventAggregator eventAggregator)
+        private readonly IDialogHostService dialogHost;
+
+        public MainView(IEventAggregator eventAggregator,IDialogHostService dialogHost)
         {
             InitializeComponent();
             eventAggregator.GetEvent<StringMessageEvent>().Subscribe(Execute);
@@ -44,10 +50,11 @@ namespace WeTodoForWindows.Views
             {
                 drawerHost.IsLeftDrawerOpen = false;
             };
+            this.dialogHost = dialogHost;
         }
 
         //使用Prism事件订阅器处理最大化/最小化
-        private void Execute(string msg)
+        private async void Execute(string msg)
         {
             switch (msg)
             {
@@ -58,6 +65,8 @@ namespace WeTodoForWindows.Views
                     WindowState = WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
                     break;
                 case "Exit":
+                    var dialogResult = await dialogHost.Question("温馨提示", "确认退出系统？");
+                    if (dialogResult.Result != ButtonResult.OK) return;
                     Application.Current.Shutdown();
                     break;
             }

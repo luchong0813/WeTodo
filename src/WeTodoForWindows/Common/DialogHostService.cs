@@ -25,9 +25,9 @@ namespace WeTodoForWindows.Common
             this.containerExtension = containerExtension;
         }
 
-        public async Task<IDialogResult> ShowDialog(string name, IDialogParameters parameters, string dialogHostName = "Root")
+        public async Task<IDialogResult> ShowDialog(string name, IDialogParameters parameters, string dialogHostName = "RootDialog")
         {
-            if (parameters != null)
+            if (parameters == null)
             {
                 parameters = new DialogParameters();
             }

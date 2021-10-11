@@ -56,6 +56,8 @@ namespace WeTodoForWindows
 
             //注册自定义对话服务到容器中
             containerRegistry.Register<IDialogHostService, DialogHostService>();
+
+            containerRegistry.RegisterForNavigation<MsgView, MsgViewModel>();
         }
     }
 }

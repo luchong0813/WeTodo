@@ -2,6 +2,7 @@
 using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Regions;
+using Prism.Services.Dialogs;
 
 using System;
 using System.Collections.ObjectModel;
@@ -12,6 +13,8 @@ using WeTodo.Share.Common.Utils;
 using WeToDo.Share.Dtos;
 using WeToDo.Share.Parameters;
 
+using WeTodoForWindows.Common;
+using WeTodoForWindows.Extensions;
 using WeTodoForWindows.Service;
 
 namespace WeTodoForWindows.ViewModels
@@ -20,6 +23,7 @@ namespace WeTodoForWindows.ViewModels
     {
         private ObservableCollection<MemoDto> memoDtos;
         private readonly IMemoService service;
+        private readonly IDialogHostService hostService;
 
         public MemoViewModel(IMemoService service, IContainerProvider container) : base(container)
         {
@@ -28,6 +32,7 @@ namespace WeTodoForWindows.ViewModels
             SelectedCommand = new DelegateCommand<MemoDto>(Selected);
             DeleteCommand = new DelegateCommand<MemoDto>(DeleteTodo);
             this.service = service;
+            hostService = container.Resolve<IDialogHostService>();
         }
 
         private bool isRightDraweOpen;
@@ -101,15 +106,32 @@ namespace WeTodoForWindows.ViewModels
 
         private async void DeleteTodo(MemoDto obj)
         {
-            var deleteResult = await service.DeleteAsync(obj.Id);
-            if (deleteResult.Code == (int)ResultEnum.SUCCESS)
+            try
             {
-                var todo = MemoDtos.FirstOrDefault(t => t.Id == obj.Id);
-                if (todo != null)
+                IDialogResult dialogResult = await hostService.Question("温馨提示", $"确定删除待办事项：{obj.Title} ?");
+                if (dialogResult.Result != ButtonResult.OK) return;
+
+                UpdateLoading(true);
+                var deleteResult = await service.DeleteAsync(obj.Id);
+                if (deleteResult.Code == (int)ResultEnum.SUCCESS)
                 {
-                    MemoDtos.Remove(todo);
+                    var todo = MemoDtos.FirstOrDefault(t => t.Id == obj.Id);
+                    if (todo != null)
+                    {
+                        MemoDtos.Remove(todo);
+                    }
                 }
             }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                UpdateLoading(false);
+            }
+
         }
 
         private void Execete(string obj)

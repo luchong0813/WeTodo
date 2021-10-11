@@ -1,6 +1,7 @@
 ﻿using MaterialDesignThemes.Wpf;
 
 using Prism.Commands;
+using Prism.Mvvm;
 using Prism.Services.Dialogs;
 
 using System;
@@ -11,15 +12,33 @@ using System.Threading.Tasks;
 
 using WeTodoForWindows.Common;
 
-namespace WeTodoForWindows.ViewModels.Dialogs
+namespace WeTodoForWindows.ViewModels
 {
-    public class AddTodoViewModel : IDialogHostAware
+    public class MsgViewModel : BindableBase, IDialogHostAware
     {
-        public AddTodoViewModel()
+        public MsgViewModel()
         {
             SaveCommand = new DelegateCommand(Save);
             CancelCommand = new DelegateCommand(Cancel);
         }
+
+        #region 属性
+        private string title;
+
+        public string Title
+        {
+            get { return title; }
+            set { title = value;RaisePropertyChanged(); }
+        }
+
+        private string content;
+
+        public string Content
+        {
+            get { return content; }
+            set { content = value;RaisePropertyChanged(); }
+        }
+        #endregion
 
         private void Cancel()
         {
@@ -40,13 +59,16 @@ namespace WeTodoForWindows.ViewModels.Dialogs
             }
         }
 
-        public string DialogHostName { get; set; }
+        public string DialogHostName { get; set; } = "RootDialog";
         public DelegateCommand SaveCommand { get; set; }
         public DelegateCommand CancelCommand { get; set; }
 
         public void OnDialogOpen(IDialogParameters parameters)
         {
-
+            if (parameters.ContainsKey("Title"))
+                Title = parameters.GetValue<string>("Title");
+            if (parameters.ContainsKey("Content"))
+                Content = parameters.GetValue<string>("Content");
         }
     }
 }
