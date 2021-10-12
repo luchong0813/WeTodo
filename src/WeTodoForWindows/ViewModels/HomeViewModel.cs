@@ -1,26 +1,39 @@
 ﻿using Prism.Commands;
+using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 
 using System;
 using System.Collections.ObjectModel;
 
+using WeTodo.Share.Common.Utils;
+
 using WeToDo.Share.Dtos;
+using WeToDo.Share.Parameters;
 
 using WeTodoForWindows.Common;
 using WeTodoForWindows.Models;
+using WeTodoForWindows.Service;
 
 namespace WeTodoForWindows.ViewModels
 {
-    public class HomeViewModel : BindableBase
+    public class HomeViewModel : NavigationViewModel
     {
         private readonly IDialogHostService dialogService;
+        private readonly IContainerProvider container;
+        private readonly ITodoService todoService;
+        private readonly IMemoService memoService;
 
-        public HomeViewModel(IDialogHostService dialogService)
+        public HomeViewModel(IDialogHostService dialogService, IContainerProvider container) : base(container)
         {
             CreateTaskBars();
             ExecuteCommand = new DelegateCommand<string>(Exceute);
             this.dialogService = dialogService;
+            this.container = container;
+            todoService = container.Resolve<ITodoService>();
+            memoService = container.Resolve<IMemoService>();
+            TodoDtos = new ObservableCollection<TodoDto>();
+            MemoDtos = new ObservableCollection<MemoDto>();
         }
 
 
@@ -68,14 +81,54 @@ namespace WeTodoForWindows.ViewModels
             }
         }
 
-        private void AddTodo()
+        /// <summary>
+        /// 添加或编辑待办事项
+        /// </summary>
+        private async void AddTodo()
         {
-            dialogService.ShowDialog("AddTodoView",null);
-        }
-        private void AddMemo()
-        {
-            dialogService.ShowDialog("AddMemoView",null);
+            var dialogResult = await dialogService.ShowDialog("AddTodoView", null);
+            if (dialogResult.Result == ButtonResult.OK)
+            {
+                var todo = dialogResult.Parameters.GetValue<TodoDto>("Value");
+                //ID大于0表示编辑
+                if (todo.Id > 0)
+                {
+
+                }
+                else
+                {
+                    var addResult = await todoService.AddAsync(todo);
+                    if (addResult.Code == (int)ResultEnum.SUCCESS)
+                    {
+                        TodoDtos.Add(addResult.Data);
+                    }
+                }
+            }
         }
 
+        /// <summary>
+        /// 添加或编辑备忘录
+        /// </summary>
+        private async void AddMemo()
+        {
+            var dialogResult = await dialogService.ShowDialog("AddMemoView", null);
+            if (dialogResult.Result == ButtonResult.OK)
+            {
+                var memo = dialogResult.Parameters.GetValue<MemoDto>("Value");
+                //ID大于0表示编辑
+                if (memo.Id > 0)
+                {
+
+                }
+                else
+                {
+                    var addResult = await memoService.AddAsync(memo);
+                    if (addResult.Code == (int)ResultEnum.SUCCESS)
+                    {
+                        MemoDtos.Add(addResult.Data);
+                    }
+                }
+            }
+        }
     }
 }
