@@ -97,6 +97,7 @@ namespace WeTodoForWindows.ViewModels
                 }
                 else
                 {
+                    todo.Status += 1;
                     var addResult = await todoService.AddAsync(todo);
                     if (addResult.Code == (int)ResultEnum.SUCCESS)
                     {
