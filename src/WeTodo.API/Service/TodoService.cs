@@ -2,6 +2,8 @@
 using AutoMapper;
 
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -105,6 +107,34 @@ namespace WeTodo.API.Service
                 .GetRepository<ToDo>()
                 .GetFirstOrDefaultAsync(predicate: x => x.Id.Equals(id));
             return new ApiResult(todo);
+        }
+
+        public async Task<ApiResult> GetSummaryAsync()
+        {
+            try
+            {
+                var todos = await unitOfWork.GetRepository<ToDo>()
+                .GetAllAsync(orderBy: source => source
+                 .OrderByDescending(t => t.CreatDate));
+
+                var memos = await unitOfWork.GetRepository<Memo>()
+                    .GetAllAsync(orderBy: source => source
+                     .OrderByDescending(t => t.CreatDate));
+
+                SummaryDto summary = new SummaryDto();
+                summary.TodoList = new ObservableCollection<TodoDto>(mapper.Map<List<TodoDto>>(todos.Where(t => t.Status == 1)));
+                summary.MemoList = new ObservableCollection<MemoDto>(mapper.Map<List<MemoDto>>(memos));
+                summary.Sum = todos.Count();
+                summary.CompletedCount = todos.Where(t => t.Status == 2).Count();
+                summary.MemoCount = memos.Count();
+                summary.CompletedRatio = (summary.CompletedCount / (double)summary.Sum).ToString("0%");
+
+                return new ApiResult(summary);
+            }
+            catch (Exception ex)
+            {
+                return new ApiResult((int)ResultEnum.FAIL, ex.Message);
+            }
         }
 
         public async Task<ApiResult> UpdateAsync(TodoDto model)

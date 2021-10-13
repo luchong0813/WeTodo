@@ -14,5 +14,7 @@ namespace WeTodo.API.Service
     public interface ITodoService:IBaseService<TodoDto>
     {
         Task<ApiResult> GetAllAsync(TodoParmeter parameter);
+
+        Task<ApiResult> GetSummaryAsync();
     }
 }

@@ -34,6 +34,9 @@ namespace WeTodo.API.Controllers
         [HttpGet]
         public async Task<ApiResult> Get(int id) => await todoService.GetByIdAsync(id);
 
+        [HttpGet]
+        public async Task<ApiResult> GetSummary() => await todoService.GetSummaryAsync();
+
         [HttpPost]
         public async Task<ApiResult> Add([FromBody] TodoDto model) => await todoService.AddAsync(model);
 
