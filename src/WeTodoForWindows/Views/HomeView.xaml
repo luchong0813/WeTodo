@@ -7,6 +7,7 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:cv="clr-namespace:WeTodoForWindows.Common.Converters"
     d:DesignHeight="450"
     d:DesignWidth="800"
     FontFamily="微软雅黑"
@@ -27,6 +28,8 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <cv:IntToBoolConverter x:Key="IntToBool"/>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -185,7 +188,10 @@
                                         Opacity="0.5"
                                         Text="{Binding Content}" />
                                 </StackPanel>
-                                <ToggleButton DockPanel.Dock="Right" />
+                                <ToggleButton DockPanel.Dock="Right" 
+                                              IsChecked="{Binding Status,Converter={StaticResource IntToBool}}"
+                                              Command="{Binding DataContext.TodoCompltedCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ItemsControl}}"
+                                              CommandParameter="{Binding}"/>
                             </DockPanel>
 
                         </DataTemplate>
@@ -241,7 +247,6 @@
                                         Opacity="0.5"
                                         Text="{Binding Content}" />
                                 </StackPanel>
-                                <ToggleButton DockPanel.Dock="Right" />
                             </DockPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

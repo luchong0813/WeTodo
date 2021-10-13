@@ -87,6 +87,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Common\Converters\ColorToBrushConverter.cs" />
+    <Compile Include="Common\Converters\IntToBoolConverter.cs" />
     <Compile Include="Common\Converters\IntToVisibilityConverter.cs" />
     <Compile Include="Common\DialogHostService.cs" />
     <Compile Include="Common\Events\UpdateLoading.cs" />

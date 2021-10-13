@@ -37,8 +37,8 @@ namespace WeTodoForWindows.ViewModels
             MemoDtos = new ObservableCollection<MemoDto>();
             EditTodoCommand = new DelegateCommand<TodoDto>(AddTodo);
             EditMemoCommand = new DelegateCommand<MemoDto>(AddMemo);
+            TodoCompltedCommand = new DelegateCommand<TodoDto>(TodoComplted);
         }
-
 
         #region 属性
         private ObservableCollection<TaskBar> taskBars;
@@ -67,6 +67,7 @@ namespace WeTodoForWindows.ViewModels
         public DelegateCommand<string> ExecuteCommand { get; private set; }
         public DelegateCommand<TodoDto> EditTodoCommand { get; private set; }
         public DelegateCommand<MemoDto> EditMemoCommand { get; private set; }
+        public DelegateCommand<TodoDto> TodoCompltedCommand { get; private set; }
 
         private void CreateTaskBars()
         {
@@ -84,6 +85,20 @@ namespace WeTodoForWindows.ViewModels
                 case "AddTodo": AddTodo(null); ; break;
                 case "AddMemo": AddMemo(null); break;
             }
+        }
+
+        private async void TodoComplted(TodoDto obj)
+        {
+            var updateResult = await todoService.UpdateAsync(obj);
+            if (updateResult.Code == (int)ResultEnum.SUCCESS)
+            {
+                var todoModel = TodoDtos.FirstOrDefault(t => t.Id.Equals(obj.Id));
+                if (todoModel != null)
+                {
+                    TodoDtos.Remove(todoModel);
+                }
+            }
+
         }
 
         /// <summary>
