@@ -6,6 +6,7 @@
     xmlns:local="clr-namespace:WeTodoForWindows.Views"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     d:DesignHeight="450"
     d:DesignWidth="800"
     FontFamily="微软雅黑"
@@ -161,9 +162,16 @@
                     </Button>
                 </DockPanel>
                 <ListBox
+                    x:Name="todoList"
                     HorizontalContentAlignment="Stretch"
                     ItemsSource="{Binding TodoDtos}"
                     ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding EditTodoCommand}"
+                                                   CommandParameter="{Binding ElementName=todoList,Path=SelectedItem}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <DockPanel MaxHeight="80" LastChildFill="False">
@@ -210,9 +218,16 @@
                     </Button>
                 </DockPanel>
                 <ListBox
+                    x:Name="memoList"
                     HorizontalContentAlignment="Stretch"
                     ItemsSource="{Binding MemoDtos}"
                     ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding EditMemoCommand}"
+                                                   CommandParameter="{Binding ElementName=memoList,Path=SelectedItem}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <DockPanel MaxHeight="80" LastChildFill="False">
