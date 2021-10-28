@@ -1,6 +1,7 @@
 ﻿using Prism.Commands;
 using Prism.Ioc;
 using Prism.Mvvm;
+using Prism.Regions;
 using Prism.Services.Dialogs;
 
 using System;
@@ -33,8 +34,6 @@ namespace WeTodoForWindows.ViewModels
             this.container = container;
             todoService = container.Resolve<ITodoService>();
             memoService = container.Resolve<IMemoService>();
-            TodoDtos = new ObservableCollection<TodoDto>();
-            MemoDtos = new ObservableCollection<MemoDto>();
             EditTodoCommand = new DelegateCommand<TodoDto>(AddTodo);
             EditMemoCommand = new DelegateCommand<MemoDto>(AddMemo);
             TodoCompltedCommand = new DelegateCommand<TodoDto>(TodoComplted);
@@ -48,20 +47,14 @@ namespace WeTodoForWindows.ViewModels
             set { taskBars = value; RaisePropertyChanged(); }
         }
 
-        private ObservableCollection<TodoDto> todoDtos;
-        public ObservableCollection<TodoDto> TodoDtos
+        private SummaryDto summary;
+
+        public SummaryDto Summary
         {
-            get { return todoDtos; }
-            set { todoDtos = value; RaisePropertyChanged(); }
+            get { return summary; }
+            set { summary = value; RaisePropertyChanged(); }
         }
 
-        private ObservableCollection<MemoDto> memoDtos;
-
-        public ObservableCollection<MemoDto> MemoDtos
-        {
-            get { return memoDtos; }
-            set { memoDtos = value; RaisePropertyChanged(); }
-        }
         #endregion
 
         public DelegateCommand<string> ExecuteCommand { get; private set; }
@@ -72,10 +65,10 @@ namespace WeTodoForWindows.ViewModels
         private void CreateTaskBars()
         {
             TaskBars = new ObservableCollection<TaskBar>();
-            TaskBars.Add(new TaskBar { Icon = "ClockFast", Title = "汇总", Content = "81", Color = "#008D8E", Target = "" });
-            TaskBars.Add(new TaskBar { Icon = "ClockCheckOutline", Title = "已完成", Content = "45", Color = "#10B138", Target = "" });
-            TaskBars.Add(new TaskBar { Icon = "ChartLineVariant", Title = "完成比例", Content = "23", Color = "#0097FF", Target = "" });
-            TaskBars.Add(new TaskBar { Icon = "PlaylistStar", Title = "备忘录", Content = "5", Color = "#FFA000", Target = "" });
+            TaskBars.Add(new TaskBar { Icon = "ClockFast", Title = "汇总", Color = "#008D8E", Target = "" });
+            TaskBars.Add(new TaskBar { Icon = "ClockCheckOutline", Title = "已完成", Color = "#10B138", Target = "" });
+            TaskBars.Add(new TaskBar { Icon = "ChartLineVariant", Title = "完成比例", Color = "#0097FF", Target = "" });
+            TaskBars.Add(new TaskBar { Icon = "PlaylistStar", Title = "备忘录", Color = "#FFA000", Target = "" });
         }
 
         private void Exceute(string obj)
@@ -87,18 +80,20 @@ namespace WeTodoForWindows.ViewModels
             }
         }
 
+        //待办完成
         private async void TodoComplted(TodoDto obj)
         {
             var updateResult = await todoService.UpdateAsync(obj);
             if (updateResult.Code == (int)ResultEnum.SUCCESS)
             {
-                var todoModel = TodoDtos.FirstOrDefault(t => t.Id.Equals(obj.Id));
+                var todoModel = Summary.TodoList.FirstOrDefault(t => t.Id.Equals(obj.Id));
                 if (todoModel != null)
                 {
-                    TodoDtos.Remove(todoModel);
+                    Summary.TodoList.Remove(todoModel);
                 }
             }
-
+            GetSummary();
+            Refresh();
         }
 
         /// <summary>
@@ -122,7 +117,7 @@ namespace WeTodoForWindows.ViewModels
                     var updateResult = await todoService.UpdateAsync(todo);
                     if (updateResult.Code == (int)ResultEnum.SUCCESS)
                     {
-                        var todoModel = TodoDtos.FirstOrDefault(t => t.Id.Equals(model.Id));
+                        var todoModel = Summary.TodoList.FirstOrDefault(t => t.Id.Equals(model.Id));
                         if (todoModel != null)
                         {
                             todoModel.Title = todo.Title;
@@ -136,10 +131,12 @@ namespace WeTodoForWindows.ViewModels
                     var addResult = await todoService.AddAsync(todo);
                     if (addResult.Code == (int)ResultEnum.SUCCESS)
                     {
-                        TodoDtos.Add(addResult.Data);
+                        Summary.TodoList.Add(addResult.Data);
                     }
+                    GetSummary();
                 }
             }
+            Refresh();
         }
 
         /// <summary>
@@ -163,11 +160,11 @@ namespace WeTodoForWindows.ViewModels
                     var updateResult = await memoService.UpdateAsync(memo);
                     if (updateResult.Code == (int)ResultEnum.SUCCESS)
                     {
-                        var todoModel = TodoDtos.FirstOrDefault(t => t.Id.Equals(model.Id));
-                        if (todoModel != null)
+                        var memoModel = Summary.MemoList.FirstOrDefault(t => t.Id.Equals(model.Id));
+                        if (memoModel != null)
                         {
-                            todoModel.Title = memo.Title;
-                            todoModel.Content = memo.Content;
+                            memoModel.Title = memo.Title;
+                            memoModel.Content = memo.Content;
                         }
                     }
                 }
@@ -176,10 +173,40 @@ namespace WeTodoForWindows.ViewModels
                     var addResult = await memoService.AddAsync(memo);
                     if (addResult.Code == (int)ResultEnum.SUCCESS)
                     {
-                        MemoDtos.Add(addResult.Data);
+                        Summary.MemoList.Add(addResult.Data);
                     }
                 }
             }
+            Refresh();
+        }
+
+        public override void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            GetSummary();
+
+            base.OnNavigatedTo(navigationContext);
+        }
+
+        /// <summary>
+        /// 获取汇总数据
+        /// </summary>
+        private async void GetSummary() {
+            var summaryResult = await todoService.GetSummaryAsync();
+            if (summaryResult.Code == (int)ResultEnum.SUCCESS)
+            {
+                Summary = (SummaryDto)summaryResult.Data;
+                Refresh();
+            }
+        }
+
+        /// <summary>
+        /// 刷新汇总数据
+        /// </summary>
+        private void Refresh() {
+            TaskBars[0].Content = Summary.Sum.ToString();
+            TaskBars[1].Content = Summary.CompletedCount.ToString();
+            TaskBars[2].Content = Summary.CompletedRatio.ToString();
+            TaskBars[3].Content = Summary.MemoCount.ToString();
         }
     }
 }

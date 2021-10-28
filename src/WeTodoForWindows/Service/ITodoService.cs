@@ -14,5 +14,7 @@ namespace WeTodoForWindows.Service
     public interface ITodoService : IBaseService<TodoDto>
     {
         Task<ApiResponse<PagedList<TodoDto>>> GetAllFilterAsync(TodoParmeter parameter);
+
+        Task<ApiResponse<SummaryDto>> GetSummaryAsync();
     }
 }

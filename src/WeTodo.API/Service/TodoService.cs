@@ -115,11 +115,11 @@ namespace WeTodo.API.Service
             {
                 var todos = await unitOfWork.GetRepository<ToDo>()
                 .GetAllAsync(orderBy: source => source
-                 .OrderByDescending(t => t.CreatDate));
+                 .OrderByDescending(t => t.UpdateDate));
 
                 var memos = await unitOfWork.GetRepository<Memo>()
                     .GetAllAsync(orderBy: source => source
-                     .OrderByDescending(t => t.CreatDate));
+                     .OrderByDescending(t => t.UpdateDate));
 
                 SummaryDto summary = new SummaryDto();
                 summary.TodoList = new ObservableCollection<TodoDto>(mapper.Map<List<TodoDto>>(todos.Where(t => t.Status == 1)));

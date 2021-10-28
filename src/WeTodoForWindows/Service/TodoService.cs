@@ -34,5 +34,12 @@ namespace WeTodoForWindows.Service
             };
             return await client.ExecuteAsync<PagedList<TodoDto>>(request);
         }
+
+        public async Task<ApiResponse<SummaryDto>> GetSummaryAsync()
+        {
+            BaseRequest request = new BaseRequest();
+            request.Route = "api/Todo/GetSummary";
+            return await client.ExecuteAsync<SummaryDto>(request);
+        }
     }
 }
