@@ -45,6 +45,12 @@ namespace WeTodoForWindows.Views
                 }
             });
 
+            //注册信息推送
+            eventAggregator.RegisterMessage(arg =>
+            {
+                Snackbar.MessageQueue.Enqueue(arg);
+            });
+
             //当菜单列表状态发声改变手动去关闭左侧导航
             menuBar.SelectionChanged += (s, e) =>
             {

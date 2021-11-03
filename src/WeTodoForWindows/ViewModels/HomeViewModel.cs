@@ -1,4 +1,5 @@
 ﻿using Prism.Commands;
+using Prism.Events;
 using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -27,6 +28,7 @@ namespace WeTodoForWindows.ViewModels
         private readonly ITodoService todoService;
         private readonly IMemoService memoService;
         private readonly IRegionManager regionManager;
+        private readonly IEventAggregator aggregator;
 
         public HomeViewModel(IDialogHostService dialogService, IContainerProvider container) : base(container)
         {
@@ -37,7 +39,8 @@ namespace WeTodoForWindows.ViewModels
             this.container = container;
             todoService = container.Resolve<ITodoService>();
             memoService = container.Resolve<IMemoService>();
-            regionManager= container.Resolve<IRegionManager>();
+            regionManager = container.Resolve<IRegionManager>();
+            aggregator = container.Resolve<IEventAggregator>();
             EditTodoCommand = new DelegateCommand<TodoDto>(AddTodo);
             EditMemoCommand = new DelegateCommand<MemoDto>(AddMemo);
             TodoCompltedCommand = new DelegateCommand<TodoDto>(TodoComplted);
@@ -72,9 +75,9 @@ namespace WeTodoForWindows.ViewModels
         {
             if (string.IsNullOrWhiteSpace(obj.Target)) return;
             NavigationParameters param = new NavigationParameters();
-            if (obj.Title=="已完成")
+            if (obj.Title == "已完成")
             {
-                param.Add("Value",2);
+                param.Add("Value", 2);
             }
             regionManager.Regions[PrismManager.MainViewRegionName].RequestNavigate(obj.Target, param);
         }
@@ -100,17 +103,28 @@ namespace WeTodoForWindows.ViewModels
         //待办完成
         private async void TodoComplted(TodoDto obj)
         {
-            var updateResult = await todoService.UpdateAsync(obj);
-            if (updateResult.Code == (int)ResultEnum.SUCCESS)
+            try
             {
-                var todoModel = Summary.TodoList.FirstOrDefault(t => t.Id.Equals(obj.Id));
-                if (todoModel != null)
+                UpdateLoading(true);
+                var updateResult = await todoService.UpdateAsync(obj);
+                if (updateResult.Code == (int)ResultEnum.SUCCESS)
                 {
-                    Summary.TodoList.Remove(todoModel);
+                    var todoModel = Summary.TodoList.FirstOrDefault(t => t.Id.Equals(obj.Id));
+                    if (todoModel != null)
+                    {
+                        Summary.TodoList.Remove(todoModel);
+                    }
                 }
+                GetSummary();
+                Refresh();
+
+                aggregator.SendMessage("叮~你真棒,又完成一条事件！");
             }
-            GetSummary();
-            Refresh();
+            finally
+            {
+                UpdateLoading(false);
+            }
+
         }
 
         /// <summary>
@@ -151,6 +165,8 @@ namespace WeTodoForWindows.ViewModels
                         Summary.TodoList.Add(addResult.Data);
                     }
                     GetSummary();
+
+                    aggregator.SendMessage("自己立的Flag跪着也要完成哦~");
                 }
             }
             Refresh();

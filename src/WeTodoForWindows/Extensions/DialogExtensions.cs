@@ -22,7 +22,8 @@ namespace WeTodoForWindows.Extensions
         /// <param name="content"></param>
         /// <param name="dialogHostName">会话主机名称</param>
         /// <returns></returns>
-        public static async Task<IDialogResult> Question(this IDialogHostService dialogHost,string title,string content,string dialogHostName="RootDialog") {
+        public static async Task<IDialogResult> Question(this IDialogHostService dialogHost, string title, string content, string dialogHostName = "RootDialog")
+        {
             DialogParameters param = new DialogParameters
             {
                 { "Title", title },
@@ -53,6 +54,26 @@ namespace WeTodoForWindows.Extensions
         public static void Register(this IEventAggregator aggregator, Action<UpdateModel> action)
         {
             aggregator.GetEvent<UpdateLoading>().Subscribe(action);
+        }
+
+        /// <summary>
+        /// 注册信息推送
+        /// </summary>
+        /// <param name="aggregator"></param>
+        /// <param name="action"></param>
+        public static void RegisterMessage(this IEventAggregator aggregator, Action<string> action)
+        {
+            aggregator.GetEvent<StringMessageEvent>().Subscribe(action);
+        }
+
+        /// <summary>
+        /// 推送提示信息
+        /// </summary>
+        /// <param name="aggregator"></param>
+        /// <param name="message"></param>
+        public static void SendMessage(this IEventAggregator aggregator, string message)
+        {
+            aggregator.GetEvent<StringMessageEvent>().Publish(message);
         }
     }
 }
