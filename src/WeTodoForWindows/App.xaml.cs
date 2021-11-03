@@ -2,6 +2,8 @@
 
 using Prism.DryIoc;
 using Prism.Ioc;
+using Prism.Services.Dialogs;
+
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -31,6 +33,15 @@ namespace WeTodoForWindows
 
         protected override void OnInitialized()
         {
+            var dialog = Container.Resolve<IDialogService>();
+            dialog.ShowDialog("LoginView", callback => {
+                if (callback.Result==ButtonResult.OK)
+                {
+                    Application.Current.Shutdown();
+                    return;
+                }
+            });
+
             var service = App.Current.MainWindow.DataContext as IConfigureService;
             service.Configure();
             base.OnInitialized();
@@ -58,6 +69,8 @@ namespace WeTodoForWindows
             containerRegistry.Register<IDialogHostService, DialogHostService>();
 
             containerRegistry.RegisterForNavigation<MsgView, MsgViewModel>();
+
+            containerRegistry.RegisterDialog<LoginView, LoginViewModel>();
         }
     }
 }
