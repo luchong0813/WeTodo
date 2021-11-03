@@ -14,6 +14,7 @@ using WeToDo.Share.Dtos;
 using WeToDo.Share.Parameters;
 
 using WeTodoForWindows.Common;
+using WeTodoForWindows.Extensions;
 using WeTodoForWindows.Models;
 using WeTodoForWindows.Service;
 
@@ -25,18 +26,22 @@ namespace WeTodoForWindows.ViewModels
         private readonly IContainerProvider container;
         private readonly ITodoService todoService;
         private readonly IMemoService memoService;
+        private readonly IRegionManager regionManager;
 
         public HomeViewModel(IDialogHostService dialogService, IContainerProvider container) : base(container)
         {
+            Title = $"您好,傲慢与偏见,今天是{DateTime.Now.GetDateTimeFormats('D')[1]}";
             CreateTaskBars();
             ExecuteCommand = new DelegateCommand<string>(Exceute);
             this.dialogService = dialogService;
             this.container = container;
             todoService = container.Resolve<ITodoService>();
             memoService = container.Resolve<IMemoService>();
+            regionManager= container.Resolve<IRegionManager>();
             EditTodoCommand = new DelegateCommand<TodoDto>(AddTodo);
             EditMemoCommand = new DelegateCommand<MemoDto>(AddMemo);
             TodoCompltedCommand = new DelegateCommand<TodoDto>(TodoComplted);
+            NavigateCommand = new DelegateCommand<TaskBar>(Navigate);
         }
 
         #region 属性
@@ -46,29 +51,41 @@ namespace WeTodoForWindows.ViewModels
             get { return taskBars; }
             set { taskBars = value; RaisePropertyChanged(); }
         }
-
         private SummaryDto summary;
-
         public SummaryDto Summary
         {
             get { return summary; }
             set { summary = value; RaisePropertyChanged(); }
         }
-
+        public string Title { get; set; }
         #endregion
 
+        #region 命令
         public DelegateCommand<string> ExecuteCommand { get; private set; }
         public DelegateCommand<TodoDto> EditTodoCommand { get; private set; }
         public DelegateCommand<MemoDto> EditMemoCommand { get; private set; }
         public DelegateCommand<TodoDto> TodoCompltedCommand { get; private set; }
+        public DelegateCommand<TaskBar> NavigateCommand { get; private set; }
+        #endregion
+
+        private void Navigate(TaskBar obj)
+        {
+            if (string.IsNullOrWhiteSpace(obj.Target)) return;
+            NavigationParameters param = new NavigationParameters();
+            if (obj.Title=="已完成")
+            {
+                param.Add("Value",2);
+            }
+            regionManager.Regions[PrismManager.MainViewRegionName].RequestNavigate(obj.Target, param);
+        }
 
         private void CreateTaskBars()
         {
             TaskBars = new ObservableCollection<TaskBar>();
-            TaskBars.Add(new TaskBar { Icon = "ClockFast", Title = "汇总", Color = "#008D8E", Target = "" });
-            TaskBars.Add(new TaskBar { Icon = "ClockCheckOutline", Title = "已完成", Color = "#10B138", Target = "" });
+            TaskBars.Add(new TaskBar { Icon = "ClockFast", Title = "汇总", Color = "#008D8E", Target = "TodoView" });
+            TaskBars.Add(new TaskBar { Icon = "ClockCheckOutline", Title = "已完成", Color = "#10B138", Target = "TodoView" });
             TaskBars.Add(new TaskBar { Icon = "ChartLineVariant", Title = "完成比例", Color = "#0097FF", Target = "" });
-            TaskBars.Add(new TaskBar { Icon = "PlaylistStar", Title = "备忘录", Color = "#FFA000", Target = "" });
+            TaskBars.Add(new TaskBar { Icon = "PlaylistStar", Title = "备忘录", Color = "#FFA000", Target = "MemoView" });
         }
 
         private void Exceute(string obj)
@@ -190,7 +207,8 @@ namespace WeTodoForWindows.ViewModels
         /// <summary>
         /// 获取汇总数据
         /// </summary>
-        private async void GetSummary() {
+        private async void GetSummary()
+        {
             var summaryResult = await todoService.GetSummaryAsync();
             if (summaryResult.Code == (int)ResultEnum.SUCCESS)
             {
@@ -202,7 +220,8 @@ namespace WeTodoForWindows.ViewModels
         /// <summary>
         /// 刷新汇总数据
         /// </summary>
-        private void Refresh() {
+        private void Refresh()
+        {
             TaskBars[0].Content = Summary.Sum.ToString();
             TaskBars[1].Content = Summary.CompletedCount.ToString();
             TaskBars[2].Content = Summary.CompletedRatio.ToString();

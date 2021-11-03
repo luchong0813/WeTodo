@@ -125,7 +125,7 @@ namespace WeTodoForWindows.ViewModels
                         TodoDtos.Remove(todo);
                     }
                 }
-               
+
             }
             catch (Exception)
             {
@@ -136,7 +136,7 @@ namespace WeTodoForWindows.ViewModels
             {
                 UpdateLoading(false);
             }
-            
+
         }
 
         private void Execete(string obj)
@@ -233,6 +233,11 @@ namespace WeTodoForWindows.ViewModels
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
             base.OnNavigatedTo(navigationContext);
+
+            if (navigationContext.Parameters.ContainsKey("Value"))
+                SelectedIndex = navigationContext.Parameters.GetValue<int>("Value");
+            else
+                SelectedIndex = 0;
             GetDataAsync();
         }
 

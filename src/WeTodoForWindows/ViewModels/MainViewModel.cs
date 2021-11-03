@@ -4,9 +4,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
+
 using WeTodoForWindows.Common.Events;
 using WeTodoForWindows.Extensions;
 using WeTodoForWindows.Models;
@@ -14,7 +16,7 @@ using WeTodoForWindows.Service;
 
 namespace WeTodoForWindows.ViewModels
 {
-    public class MainViewModel: IConfigureService
+    public class MainViewModel : IConfigureService
     {
         private readonly IRegionManager _regionManager;
         private IRegionNavigationJournal journal;
