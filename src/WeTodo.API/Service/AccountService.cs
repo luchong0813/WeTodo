@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 
 using System.Threading.Tasks;
+
 using WeTodo.API.DataContext;
 using WeTodo.Share.Common.Utils;
 
 using WeToDo.Api;
 using WeToDo.Share.Dtos;
-using WeToDo.Share.Parameters;
+using WeToDo.Share.Extensions;
 
 namespace WeTodo.API.Service
 {
@@ -25,6 +26,7 @@ namespace WeTodo.API.Service
         {
             try
             {
+                var pwd = ((password + "234789").GetMD5()).GetMD5();
                 var repository = unitOfWork.GetRepository<User>();
                 if (await IsAccountExist(repository, account) == false)
                     return new ApiResult((int)ResultEnum.ACCOUNT_NOEXIST, "该账户不存在");
@@ -33,7 +35,7 @@ namespace WeTodo.API.Service
                .GetRepository<User>()
                .GetFirstOrDefaultAsync(predicate: x =>
                x.Account.Equals(account) &&
-               x.PassWord.Equals(password));
+               x.PassWord.Equals(pwd));
 
                 if (model == null)
                     return new ApiResult((int)ResultEnum.ERROR_USER, "账号或密码错误");
@@ -55,7 +57,8 @@ namespace WeTodo.API.Service
                     return new ApiResult((int)ResultEnum.ACCOUNT_EXIST, "该账户已存在");
 
                 //双重MD5+自定义密钥
-                model.PassWord = MD5Util.GenerateMD5(MD5Util.GenerateMD5(model.PassWord + "123456"));
+                //model.PassWord = MD5Util.GenerateMD5(MD5Util.GenerateMD5(model.PassWord + "123456"));
+                model.PassWord = ((model.PassWord + "234789").GetMD5()).GetMD5();
 
                 model.CreatDate = System.DateTime.Now;
 

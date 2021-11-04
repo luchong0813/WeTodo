@@ -21,9 +21,9 @@ namespace WeTodo.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ApiResult> Login(string account, string password)
+        public async Task<ApiResult> Login([FromBody] UserDto user)
         {
-            return await accountService.LoginAsync(account, password);
+            return await accountService.LoginAsync(user.Account, user.Password);
         }
 
         [HttpPost]
