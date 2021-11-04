@@ -6,80 +6,66 @@
     xmlns:local="clr-namespace:WeTodoForWindows.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:prism="http://prismlibrary.com/"
     Width="600"
     Height="350"
     mc:Ignorable="d">
+    <prism:Dialog.WindowStyle>
+        <Style TargetType="Window">
+            <Setter Property="SizeToContent" Value="WidthAndHeight" />
+            <Setter Property="ResizeMode" Value="NoResize" />
+            <Setter Property="prism:Dialog.WindowStartupLocation" Value="CenterScreen" />
+        </Style>
+    </prism:Dialog.WindowStyle>
     <Grid Background="White">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="80" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <StackPanel
-                Margin="40,10"
-                VerticalAlignment="Center"
-                Orientation="Horizontal">
-                <Image Width="25" Source="/Images/todo.png" />
-                <Button
-                    Content="Home"
-                    FontWeight="Bold"
-                    Style="{StaticResource MaterialDesignFlatButton}" Cursor="Hand" />
-                <Button
-                    Content="GitHub"
-                    FontWeight="Bold"
-                    Style="{StaticResource MaterialDesignFlatButton}" />
-                <Button
-                    Content="Blog"
-                    FontWeight="Bold"
-                    Style="{StaticResource MaterialDesignFlatButton}" />
-            </StackPanel>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.3*" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
 
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="1.2*" />
-                </Grid.ColumnDefinitions>
-                <DockPanel Margin="40,0,0,0">
+        <Image Source="/Images/login.jpg" />
 
-                    <TextBlock
-                        DockPanel.Dock="Top"
-                        FontSize="30"
-                        FontWeight="Bold"
-                        Text="Welcome!" />
-                    <Border
-                        Width="80"
-                        Height="5"
-                        Margin="0,10,0,30"
-                        HorizontalAlignment="Left"
-                        Background="Gray"
-                        BorderBrush="Gray"
-                        BorderThickness="1"
-                        CornerRadius="2"
-                        DockPanel.Dock="Top"
-                        Opacity="0.2" />
-                    <TextBox
-                        Margin="0,10"
-                        md:HintAssist.Hint="请输入账号"
-                        DockPanel.Dock="Top" />
-                    <TextBox
-                        Margin="0,10"
-                        md:HintAssist.Hint="请输入密码"
-                        DockPanel.Dock="Top" />
-                    <Button Content="确认登录" DockPanel.Dock="Top" />
 
-                    <DockPanel LastChildFill="False">
-                        <TextBlock Margin="0,10" Text="注册账号" />
-                        <TextBlock
-                            Margin="0,10"
-                            DockPanel.Dock="Right"
-                            Text="忘记密码" />
-                    </DockPanel>
-                </DockPanel>
+        <DockPanel
+            Grid.Column="1"
+            Margin="20"
+            VerticalAlignment="Center">
 
-                <Image Grid.Column="1" Source="/Images/login.jpg" />
+            <TextBlock
+                DockPanel.Dock="Top"
+                FontSize="30"
+                FontWeight="Bold"
+                Text="Welcome!" />
+            <Border
+                Width="80"
+                Height="5"
+                Margin="0,10,0,30"
+                HorizontalAlignment="Left"
+                Background="Gray"
+                BorderBrush="Gray"
+                BorderThickness="1"
+                CornerRadius="2"
+                DockPanel.Dock="Top"
+                Opacity="0.2" />
+            <TextBox
+                Margin="0,10"
+                md:HintAssist.Hint="请输入账号"
+                DockPanel.Dock="Top" />
+            <TextBox
+                Margin="0,10"
+                md:HintAssist.Hint="请输入密码"
+                DockPanel.Dock="Top" />
+            <Button Content="确认登录" DockPanel.Dock="Top" />
 
-            </Grid>
-        </Grid>
+            <DockPanel LastChildFill="False">
+                <TextBlock Margin="0,10" Text="注册账号" />
+                <TextBlock
+                    Margin="0,10"
+                    DockPanel.Dock="Right"
+                    Text="忘记密码" />
+            </DockPanel>
+        </DockPanel>
+
 
     </Grid>
 </UserControl>

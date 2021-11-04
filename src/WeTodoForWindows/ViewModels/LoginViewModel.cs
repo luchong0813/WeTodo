@@ -11,7 +11,7 @@ namespace WeTodoForWindows.ViewModels
 {
     public class LoginViewModel : BindableBase, IDialogAware
     {
-        public string Title { get; private set; }
+        public string Title { get; private set; } = "WeTodo";
 
         public event Action<IDialogResult> RequestClose;
 
