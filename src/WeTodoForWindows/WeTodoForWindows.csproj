@@ -94,6 +94,8 @@
     <Compile Include="Common\IDialogHostAware.cs" />
     <Compile Include="Common\IDialogHostService.cs" />
     <Compile Include="Extensions\DialogExtensions.cs" />
+    <Compile Include="Extensions\PasswordBehavior.cs" />
+    <Compile Include="Extensions\PasswordExtenions.cs" />
     <Compile Include="Extensions\PrismManager.cs" />
     <Compile Include="Models\BaseDto.cs" />
     <Compile Include="Models\MenuBar.cs" />
