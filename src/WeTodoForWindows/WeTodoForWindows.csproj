@@ -105,8 +105,10 @@
     <Compile Include="Service\HttpRestClient.cs" />
     <Compile Include="Service\IBaseService.cs" />
     <Compile Include="Common\IConfigureService.cs" />
+    <Compile Include="Service\ILoginService.cs" />
     <Compile Include="Service\IMemoService.cs" />
     <Compile Include="Service\ITodoService.cs" />
+    <Compile Include="Service\LoginService.cs" />
     <Compile Include="Service\MemoService.cs" />
     <Compile Include="Service\TodoService.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
