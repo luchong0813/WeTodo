@@ -22,19 +22,19 @@ namespace WeTodo.API.Service
             this.mapper = mapper;
         }
 
-        public async Task<ApiResult> LoginAsync(string account, string password)
+        public async Task<ApiResult> LoginAsync(string userName, string password)
         {
             try
             {
                 var pwd = ((password + "234789").GetMD5()).GetMD5();
                 var repository = unitOfWork.GetRepository<User>();
-                if (await IsAccountExist(repository, account) == false)
+                if (await IsAccountExist(repository, userName) == false)
                     return new ApiResult((int)ResultEnum.ACCOUNT_NOEXIST, "该账户不存在");
 
                 var model = await unitOfWork
                .GetRepository<User>()
                .GetFirstOrDefaultAsync(predicate: x =>
-               x.Account.Equals(account) &&
+               x.UserName.Equals(userName) &&
                x.PassWord.Equals(pwd));
                  
                 if (model == null)
@@ -53,7 +53,7 @@ namespace WeTodo.API.Service
             {
                 var model = mapper.Map<User>(user);
                 var repository = unitOfWork.GetRepository<User>();
-                if (await IsAccountExist(repository, model.Account))
+                if (await IsAccountExist(repository, model.UserName))
                     return new ApiResult((int)ResultEnum.ACCOUNT_EXIST, "该账户已存在");
 
                 //双重MD5+自定义密钥
@@ -80,9 +80,9 @@ namespace WeTodo.API.Service
         /// <param name="repository"></param>
         /// <param name="account"></param>
         /// <returns></returns>
-        private async Task<bool> IsAccountExist(IRepository<User> repository, string account)
+        private async Task<bool> IsAccountExist(IRepository<User> repository, string userName)
         {
-            var userModel = await repository.GetFirstOrDefaultAsync(predicate: x => x.Account.Equals(account));
+            var userModel = await repository.GetFirstOrDefaultAsync(predicate: x => x.UserName.Equals(userName));
             if (userModel == null)
                 return false;
             return true;

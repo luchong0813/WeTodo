@@ -35,7 +35,7 @@ namespace WeTodoForWindows
         {
             var dialog = Container.Resolve<IDialogService>();
             dialog.ShowDialog("LoginView", callback => {
-                if (callback.Result==ButtonResult.OK)
+                if (callback.Result!=ButtonResult.OK)
                 {
                     Application.Current.Shutdown();
                     return;
@@ -52,6 +52,7 @@ namespace WeTodoForWindows
             containerRegistry.GetContainer().Register<HttpRestClient>(made: Parameters.Of.Type<string>(serviceKey: "webUrl"));
             containerRegistry.GetContainer().RegisterInstance(@"http://localhost:64576/", serviceKey: "webUrl");
 
+            containerRegistry.Register<ILoginService, LoginService>();
             containerRegistry.Register<ITodoService, TodoService>();
             containerRegistry.Register<IMemoService, MemoService>();
 

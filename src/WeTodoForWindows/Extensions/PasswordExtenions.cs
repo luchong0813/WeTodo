@@ -23,7 +23,7 @@ namespace WeTodoForWindows.Extensions
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PassWordProperty =
-            DependencyProperty.RegisterAttached("MyProperty",
+            DependencyProperty.RegisterAttached("PassWord",
                 typeof(string),
                 typeof(PasswordExtenions),
                 new PropertyMetadata(string.Empty, OnPassWordPropertyChanged));

@@ -8,7 +8,7 @@ namespace WeTodo.API.Service
 {
     public interface IAccountService
     {
-        Task<ApiResult> LoginAsync(string account, string password);
+        Task<ApiResult> LoginAsync(string userName, string password);
         Task<ApiResult> RegisterAsync(UserDto user);
     }
 }

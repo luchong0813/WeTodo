@@ -21,9 +21,9 @@ namespace WeTodoForWindows.Extensions
         {
             var pwdBox = (PasswordBox)sender;
             var password = PasswordExtenions.GetPassWord(pwdBox);
-            if (password != null && pwdBox.Password != password)
+            if (pwdBox != null && pwdBox.Password != password)
             {
-                PasswordExtenions.SetPassWord(pwdBox, password);
+                PasswordExtenions.SetPassWord(pwdBox, pwdBox.Password);
             }
         }
 

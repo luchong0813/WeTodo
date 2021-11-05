@@ -14,7 +14,7 @@ namespace WeTodoForWindows.Service
     public class LoginService : ILoginService
     {
         private readonly HttpRestClient restClient;
-        private readonly string serviceName = "Login";
+        private readonly string serviceName = "Account";
 
         public LoginService(HttpRestClient restClient)
         {
@@ -26,6 +26,7 @@ namespace WeTodoForWindows.Service
             BaseRequest request = new BaseRequest();
             request.Method = Method.POST;
             request.Route = $"api/{serviceName}/Login";
+            request.Parameter = userDto;
             return await restClient.ExecuteAsync(request);
         }
 
@@ -34,6 +35,7 @@ namespace WeTodoForWindows.Service
             BaseRequest request = new BaseRequest();
             request.Method = Method.POST;
             request.Route = $"api/{serviceName}/Register";
+            request.Parameter = userDto;
             return await restClient.ExecuteAsync(request);
         }
     }

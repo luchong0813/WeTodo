@@ -23,7 +23,7 @@ namespace WeTodo.API.Controllers
         [HttpPost]
         public async Task<ApiResult> Login([FromBody] UserDto user)
         {
-            return await accountService.LoginAsync(user.Account, user.Password);
+            return await accountService.LoginAsync(user.UserName, user.Password);
         }
 
         [HttpPost]
