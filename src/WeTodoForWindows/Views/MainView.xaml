@@ -130,17 +130,29 @@
                         </StackPanel>
 
                         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                            <Image
-                                Width="25"
-                                Height="25"
-                                Source="../Images/user.jpg">
-                                <Image.Clip>
-                                    <EllipseGeometry
-                                        Center="12.5,12.5"
-                                        RadiusX="12.5"
-                                        RadiusY="12.5" />
-                                </Image.Clip>
-                            </Image>
+
+                            <materialDesign:PopupBox>
+                                <materialDesign:PopupBox.ToggleContent>
+                                    <Image
+                                        Width="25"
+                                        Height="25"
+                                        Source="../Images/user.jpg">
+                                        <Image.Clip>
+                                            <EllipseGeometry
+                                                Center="12.5,12.5"
+                                                RadiusX="12.5"
+                                                RadiusY="12.5" />
+                                        </Image.Clip>
+                                    </Image>
+                                </materialDesign:PopupBox.ToggleContent>
+
+                                <StackPanel>
+                                    <Button Content="个人中心" />
+                                    <Button Command="{Binding LoginOutCommand}" Content="注销账号" />
+                                </StackPanel>
+                            </materialDesign:PopupBox>
+
+
 
                             <Button
                                 Command="{Binding ExecuteCommand}"

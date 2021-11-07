@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using Prism.Commands;
 using Prism.Events;
+using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Regions;
 
@@ -23,11 +24,13 @@ namespace WeTodoForWindows.ViewModels
     public class MainViewModel : BindableBase, IConfigureService
     {
         private readonly IRegionManager _regionManager;
+        private readonly IContainerProvider container;
         private IRegionNavigationJournal journal;
 
-        public MainViewModel(IEventAggregator eventAggregator, IRegionManager regionManager)
+        public MainViewModel(IEventAggregator eventAggregator, IRegionManager regionManager, IContainerProvider container)
         {
             _regionManager = regionManager;
+            this.container = container;
             MenuBars = new ObservableCollection<MenuBar>();
 
             ExecuteCommand = new DelegateCommand<string>((arg) =>
@@ -51,6 +54,7 @@ namespace WeTodoForWindows.ViewModels
                     journal.GoForward();
                 }
             });
+            LoginOutCommand = new DelegateCommand(() => { App.LoginOut(container); });
         }
 
         public ObservableCollection<MenuBar> MenuBars { get; private set; }
@@ -60,6 +64,7 @@ namespace WeTodoForWindows.ViewModels
         public DelegateCommand<MenuBar> NavigateCommand { get; private set; }
         public DelegateCommand MovePrevCommand { get; private set; }
         public DelegateCommand MoveNextCommand { get; private set; }
+        public DelegateCommand LoginOutCommand { get; private set; }
 
         #endregion
 
@@ -71,7 +76,6 @@ namespace WeTodoForWindows.ViewModels
             get { return currentUser; }
             set { currentUser = value; RaisePropertyChanged(); }
         }
-
         #endregion
 
         private void Navigate(MenuBar obj)
