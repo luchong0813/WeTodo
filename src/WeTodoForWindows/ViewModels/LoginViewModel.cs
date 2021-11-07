@@ -14,6 +14,7 @@ using WeTodo.Share.Common.Utils;
 
 using WeToDo.Share.Dtos;
 
+using WeTodoForWindows.Common;
 using WeTodoForWindows.Common.Events;
 using WeTodoForWindows.Extensions;
 using WeTodoForWindows.Service;
@@ -103,6 +104,7 @@ namespace WeTodoForWindows.ViewModels
 
             if (result.Code == (int)ResultEnum.SUCCESS)
             {
+                Global.Account = result.Data.Account;
                 RequestClose?.Invoke(new DialogResult(ButtonResult.OK));
                 aggregator.SendMessage("登录成功！");
             }

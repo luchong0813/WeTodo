@@ -55,7 +55,7 @@
                             Margin="0,10,0,20"
                             VerticalAlignment="Center"
                             FontSize="15"
-                            Text="傲慢与偏见" />
+                            Text="{Binding CurrentUser.Account}" />
                     </StackPanel>
 
                     <ListBox

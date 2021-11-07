@@ -42,7 +42,7 @@
             Margin="10"
             FontSize="22"
             FontWeight="Medium"
-            Text="{Binding Title}" />
+            Text="{Binding Account}" />
 
         <ItemsControl Grid.Row="1" ItemsSource="{Binding TaskBars}">
             <ItemsControl.ItemsPanel>

@@ -32,7 +32,7 @@ namespace WeTodoForWindows.ViewModels
 
         public HomeViewModel(IDialogHostService dialogService, IContainerProvider container) : base(container)
         {
-            Title = $"您好,傲慢与偏见,今天是{DateTime.Now.GetDateTimeFormats('D')[1]}";
+            Account = $"您好,{Global.GetCurrentUser().Account},今天是{DateTime.Now.GetDateTimeFormats('D')[1]}";
             CreateTaskBars();
             ExecuteCommand = new DelegateCommand<string>(Exceute);
             this.dialogService = dialogService;
@@ -60,7 +60,8 @@ namespace WeTodoForWindows.ViewModels
             get { return summary; }
             set { summary = value; RaisePropertyChanged(); }
         }
-        public string Title { get; set; }
+
+        public string Account { get; set; }
         #endregion
 
         #region 命令

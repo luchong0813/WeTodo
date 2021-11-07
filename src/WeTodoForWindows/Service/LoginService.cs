@@ -21,13 +21,13 @@ namespace WeTodoForWindows.Service
             this.restClient = restClient;
         }
 
-        public async Task<ApiResponse> LoginAsync(UserDto userDto)
+        public async Task<ApiResponse<UserDto>> LoginAsync(UserDto userDto)
         {
             BaseRequest request = new BaseRequest();
             request.Method = Method.POST;
             request.Route = $"api/{serviceName}/Login";
             request.Parameter = userDto;
-            return await restClient.ExecuteAsync(request);
+            return await restClient.ExecuteAsync<UserDto>(request);
         }
 
         public async Task<ApiResponse> RegisterAsync(UserDto userDto)

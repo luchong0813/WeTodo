@@ -7,8 +7,12 @@ using System.Threading.Tasks;
 
 using Prism.Commands;
 using Prism.Events;
+using Prism.Mvvm;
 using Prism.Regions;
 
+using WeToDo.Share.Dtos;
+
+using WeTodoForWindows.Common;
 using WeTodoForWindows.Common.Events;
 using WeTodoForWindows.Extensions;
 using WeTodoForWindows.Models;
@@ -16,7 +20,7 @@ using WeTodoForWindows.Service;
 
 namespace WeTodoForWindows.ViewModels
 {
-    public class MainViewModel : IConfigureService
+    public class MainViewModel : BindableBase, IConfigureService
     {
         private readonly IRegionManager _regionManager;
         private IRegionNavigationJournal journal;
@@ -59,6 +63,17 @@ namespace WeTodoForWindows.ViewModels
 
         #endregion
 
+        #region
+        private UserDto currentUser;
+
+        public UserDto CurrentUser
+        {
+            get { return currentUser; }
+            set { currentUser = value; RaisePropertyChanged(); }
+        }
+
+        #endregion
+
         private void Navigate(MenuBar obj)
         {
             if (obj == null || string.IsNullOrEmpty(obj.NameSpace))
@@ -82,6 +97,8 @@ namespace WeTodoForWindows.ViewModels
         /// </summary>
         public void Configure()
         {
+            CurrentUser=Global.GetCurrentUser();
+
             CreateMenuBars();
             _regionManager.Regions[PrismManager.MainViewRegionName].RequestNavigate("HomeView");
         }
