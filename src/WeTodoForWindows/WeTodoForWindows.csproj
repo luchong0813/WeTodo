@@ -90,6 +90,7 @@
     <Compile Include="Common\Converters\IntToBoolConverter.cs" />
     <Compile Include="Common\Converters\IntToVisibilityConverter.cs" />
     <Compile Include="Common\DialogHostService.cs" />
+    <Compile Include="Common\Events\QuestionEvent.cs" />
     <Compile Include="Common\Events\UpdateLoading.cs" />
     <Compile Include="Common\IDialogHostAware.cs" />
     <Compile Include="Common\IDialogHostService.cs" />

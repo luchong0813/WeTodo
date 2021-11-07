@@ -33,6 +33,7 @@ namespace WeTodoForWindows.Views
         public MainView(IEventAggregator eventAggregator,IDialogHostService dialogHost)
         {
             InitializeComponent();
+            eventAggregator.GetEvent<QuestionEvent>().Subscribe(arg => Execute(arg));
 
             //注册加载数据窗口
             eventAggregator.Register(arg =>

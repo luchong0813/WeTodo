@@ -26,9 +26,9 @@ namespace WeTodoForWindows.ViewModels
             _regionManager = regionManager;
             MenuBars = new ObservableCollection<MenuBar>();
 
-            ExecuteCommand = new DelegateCommand<MessageModel>((arg) =>
+            ExecuteCommand = new DelegateCommand<string>((arg) =>
             {
-                eventAggregator.GetEvent<StringMessageEvent>().Publish(arg);
+                eventAggregator.GetEvent<QuestionEvent>().Publish(arg);
             });
             NavigateCommand = new DelegateCommand<MenuBar>(Navigate);
 
@@ -52,7 +52,7 @@ namespace WeTodoForWindows.ViewModels
         public ObservableCollection<MenuBar> MenuBars { get; private set; }
 
         #region Command
-        public DelegateCommand<MessageModel> ExecuteCommand { get; private set; }
+        public DelegateCommand<string> ExecuteCommand { get; private set; }
         public DelegateCommand<MenuBar> NavigateCommand { get; private set; }
         public DelegateCommand MovePrevCommand { get; private set; }
         public DelegateCommand MoveNextCommand { get; private set; }
