@@ -61,9 +61,13 @@ namespace WeTodoForWindows.Extensions
         /// </summary>
         /// <param name="aggregator"></param>
         /// <param name="action"></param>
-        public static void RegisterMessage(this IEventAggregator aggregator, Action<string> action)
+        public static void RegisterMessage(this IEventAggregator aggregator, Action<MessageModel> action, string filter = "Normal")
         {
-            aggregator.GetEvent<StringMessageEvent>().Subscribe(action);
+            aggregator.GetEvent<StringMessageEvent>().Subscribe(action,
+                ThreadOption.PublisherThread, true, (m) =>
+                {
+                    return m.Filter.Equals(filter);
+                });
         }
 
         /// <summary>
@@ -71,9 +75,13 @@ namespace WeTodoForWindows.Extensions
         /// </summary>
         /// <param name="aggregator"></param>
         /// <param name="message"></param>
-        public static void SendMessage(this IEventAggregator aggregator, string message)
+        public static void SendMessage(this IEventAggregator aggregator, string message, string filterName = "Normal")
         {
-            aggregator.GetEvent<StringMessageEvent>().Publish(message);
+            aggregator.GetEvent<StringMessageEvent>().Publish(new MessageModel
+            {
+                Filter = filterName,
+                Message = message
+            });
         }
     }
 }

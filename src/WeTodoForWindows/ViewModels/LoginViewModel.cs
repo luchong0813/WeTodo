@@ -1,4 +1,5 @@
 ﻿using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 
@@ -13,6 +14,8 @@ using WeTodo.Share.Common.Utils;
 
 using WeToDo.Share.Dtos;
 
+using WeTodoForWindows.Common.Events;
+using WeTodoForWindows.Extensions;
 using WeTodoForWindows.Service;
 
 namespace WeTodoForWindows.ViewModels
@@ -20,14 +23,16 @@ namespace WeTodoForWindows.ViewModels
     public class LoginViewModel : BindableBase, IDialogAware
     {
         public string Title { get; private set; } = "WeTodo";
-
+        private readonly ILoginService loginService;
+        private readonly IEventAggregator aggregator;
         public event Action<IDialogResult> RequestClose;
 
-        public LoginViewModel(ILoginService loginService)
+        public LoginViewModel(ILoginService loginService, IEventAggregator aggregator)
         {
             RegisterUserDto = new RegisterUserDto();
             ExecuteCommand = new DelegateCommand<string>(Execute);
             this.loginService = loginService;
+            this.aggregator = aggregator;
         }
 
         private void Execute(string obj)
@@ -50,11 +55,17 @@ namespace WeTodoForWindows.ViewModels
             if (string.IsNullOrWhiteSpace(RegisterUserDto.Account) ||
                string.IsNullOrWhiteSpace(RegisterUserDto.UserName) ||
                string.IsNullOrWhiteSpace(RegisterUserDto.PassWord) ||
-               string.IsNullOrWhiteSpace(RegisterUserDto.NewPassWord))
+               string.IsNullOrWhiteSpace(RegisterUserDto.NewPassWord)) {
+                aggregator.SendMessage("账户或密码不符合规范，请重新输入！", "Login");
                 return;
+            }
+               
 
             //两次密码不一致
-            if (RegisterUserDto.PassWord != RegisterUserDto.NewPassWord) return;
+            if (RegisterUserDto.PassWord != RegisterUserDto.NewPassWord) {
+                aggregator.SendMessage("两次密码输入不一致，请检查！", "Login");
+                return;
+            } 
 
             var result = await loginService.RegisterAsync(new UserDto
             {
@@ -67,9 +78,12 @@ namespace WeTodoForWindows.ViewModels
             {
                 //注册成功，切换到登录页
                 SelectedIndex = 0;
+                aggregator.SendMessage("注册成功！", "Login");
+                return ;
             }
 
-            //Todo:注册失败
+            //注册失败
+            aggregator.SendMessage("注册失败！", "Login");
         }
 
         private void LoginOut()
@@ -90,9 +104,12 @@ namespace WeTodoForWindows.ViewModels
             if (result.Code == (int)ResultEnum.SUCCESS)
             {
                 RequestClose?.Invoke(new DialogResult(ButtonResult.OK));
+                aggregator.SendMessage("登录成功！");
             }
-
-            //登录失败
+            else {
+                //登录失败
+                aggregator.SendMessage("登陆失败，请检查账号或密码是否正确！","Login");
+            }
         }
 
         public bool CanCloseDialog()
@@ -123,8 +140,6 @@ namespace WeTodoForWindows.ViewModels
         }
 
         private string password;
-        private readonly ILoginService loginService;
-
         public string Password
         {
             get { return password; }

@@ -26,7 +26,6 @@
         </Grid.ColumnDefinitions>
 
         <Image Source="/Images/login.jpg" />
-
         <md:Transitioner Grid.Column="1" SelectedIndex="{Binding SelectedIndex}">
             <!--  登录  -->
             <md:TransitionerSlide>
@@ -147,5 +146,12 @@
                 </DockPanel>
             </md:TransitionerSlide>
         </md:Transitioner>
+
+        <!--  消息提示  -->
+        <md:Snackbar
+            x:Name="Snackbar"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Center"
+            MessageQueue="{md:MessageQueue}" />
     </Grid>
 </UserControl>

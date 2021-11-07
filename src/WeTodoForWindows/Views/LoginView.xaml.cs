@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Prism.Events;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +15,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using WeTodoForWindows.Common.Events;
+using WeTodoForWindows.Extensions;
+
 namespace WeTodoForWindows.Views
 {
     /// <summary>
@@ -20,9 +25,18 @@ namespace WeTodoForWindows.Views
     /// </summary>
     public partial class LoginView : UserControl
     {
-        public LoginView()
+        private readonly IEventAggregator eventAggregator;
+
+        public LoginView(IEventAggregator eventAggregator)
         {
             InitializeComponent();
+            this.eventAggregator = eventAggregator;
+            //注册信息推送
+            eventAggregator.RegisterMessage(arg =>
+            {
+                Snackbar.MessageQueue.Enqueue(arg.Message);
+            },"Login");
+            
         }
     }
 }

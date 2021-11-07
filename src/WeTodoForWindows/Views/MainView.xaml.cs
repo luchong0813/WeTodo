@@ -33,7 +33,6 @@ namespace WeTodoForWindows.Views
         public MainView(IEventAggregator eventAggregator,IDialogHostService dialogHost)
         {
             InitializeComponent();
-            eventAggregator.GetEvent<StringMessageEvent>().Subscribe(Execute);
 
             //注册加载数据窗口
             eventAggregator.Register(arg =>
@@ -48,8 +47,8 @@ namespace WeTodoForWindows.Views
             //注册信息推送
             eventAggregator.RegisterMessage(arg =>
             {
-                Snackbar.MessageQueue.Enqueue(arg);
-            });
+                Snackbar.MessageQueue.Enqueue(arg.Message);
+            },"Nomal");
 
             //当菜单列表状态发声改变手动去关闭左侧导航
             menuBar.SelectionChanged += (s, e) =>
