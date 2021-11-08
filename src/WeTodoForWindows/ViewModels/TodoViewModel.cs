@@ -165,7 +165,6 @@ namespace WeTodoForWindows.ViewModels
                 //ID大于0表示编辑，否则即添加
                 if (CurrentTodo.Id > 0)
                 {
-                    var stsatus = CurrentTodo.Status + 1;
                     var updateResult = await service.UpdateAsync(CurrentTodo);
                     if (updateResult.Code == (int)ResultEnum.SUCCESS)
                     {
@@ -174,14 +173,13 @@ namespace WeTodoForWindows.ViewModels
                         {
                             todo.Title = CurrentTodo.Title;
                             todo.Content = CurrentTodo.Content;
-                            todo.Status = stsatus;
+                            todo.Status = CurrentTodo.Status;
                         }
                     }
                     IsRightDraweOpen = false;
                 }
                 else
                 {
-                    CurrentTodo.Status += 1;
                     var addResult = await service.AddAsync(CurrentTodo);
                     if (addResult.Code == (int)ResultEnum.SUCCESS)
                     {
@@ -217,7 +215,7 @@ namespace WeTodoForWindows.ViewModels
                 if (todoResult.Code == (int)ResultEnum.SUCCESS)
                 {
                     CurrentTodo = todoResult.Data;
-                    currentTodo.Status -= 1;
+                    CurrentTodo.Status -= 1;
                     IsRightDraweOpen = true;
                 }
             }

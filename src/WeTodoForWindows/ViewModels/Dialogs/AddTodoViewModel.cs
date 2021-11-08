@@ -68,6 +68,7 @@ namespace WeTodoForWindows.ViewModels.Dialogs
             if (parameters.ContainsKey("Value"))
             {
                 Model = parameters.GetValue<TodoDto>("Value");
+                Model.Status -= 1;
             }
             else {
                 Model = new TodoDto();

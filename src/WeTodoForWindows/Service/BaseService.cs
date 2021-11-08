@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using WeToDo.Share.Common.Utils;
+using WeToDo.Share.Dtos;
 using WeToDo.Share.Parameters;
 using WeToDo.Shared.Contact;
 
@@ -25,11 +26,13 @@ namespace WeTodoForWindows.Service
 
         public async Task<ApiResponse<TEntity>> AddAsync(TEntity entity)
         {
+            var todo = entity as TodoDto;
+            todo.Status += 1;
             BaseRequest request = new BaseRequest
             {
                 Method = Method.POST,
                 Route = $"api/{serviceName}/Add",
-                Parameter = entity
+                Parameter = todo
             };
             return await client.ExecuteAsync<TEntity>(request);
         }
@@ -68,6 +71,8 @@ namespace WeTodoForWindows.Service
 
         public async Task<ApiResponse<TEntity>> UpdateAsync(TEntity entity)
         {
+            var todo = entity as TodoDto;
+            todo.Status += 1;
             BaseRequest request = new BaseRequest
             {
                 Method = Method.POST,
