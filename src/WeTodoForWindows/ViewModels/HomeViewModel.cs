@@ -119,7 +119,7 @@ namespace WeTodoForWindows.ViewModels
                 GetSummary();
                 Refresh();
 
-                aggregator.SendMessage("叮~你真棒,又完成一条事件！");
+                aggregator.SendMessage("叮~你真棒,又完成一条事件！", "Normal");
             }
             finally
             {
@@ -167,7 +167,7 @@ namespace WeTodoForWindows.ViewModels
                     }
                     GetSummary();
 
-                    aggregator.SendMessage("自己立的Flag跪着也要完成哦~");
+                    aggregator.SendMessage("自己立的Flag跪着也要完成哦~", "Normal");
                 }
             }
             Refresh();

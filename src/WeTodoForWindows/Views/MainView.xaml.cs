@@ -49,7 +49,7 @@ namespace WeTodoForWindows.Views
             eventAggregator.RegisterMessage(arg =>
             {
                 Snackbar.MessageQueue.Enqueue(arg.Message);
-            },"Nomal");
+            },"Normal");
 
             //当菜单列表状态发声改变手动去关闭左侧导航
             menuBar.SelectionChanged += (s, e) =>

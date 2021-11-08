@@ -2,17 +2,17 @@
     x:Class="WeTodoForWindows.Views.TodoView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cv="clr-namespace:WeTodoForWindows.Common.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:WeTodoForWindows.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
-    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:cv="clr-namespace:WeTodoForWindows.Common.Converters"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <cv:IntToVisibilityConverter x:Key="IntToVisibility"/>
+        <cv:IntToVisibilityConverter x:Key="IntToVisibility" />
     </UserControl.Resources>
     <md:DrawerHost IsRightDrawerOpen="{Binding IsRightDraweOpen}">
         <!--  右侧添加待办  -->
@@ -38,20 +38,21 @@
 
                 <TextBox
                     Margin="20,10"
-                    Text="{Binding CurrentTodo.Title}"
                     md:HintAssist.Hint="请输入待办概要"
-                    DockPanel.Dock="Top" />
+                    DockPanel.Dock="Top"
+                    Text="{Binding CurrentTodo.Title}" />
                 <TextBox
                     MinHeight="100"
-                    Text="{Binding CurrentTodo.Content}"
                     Margin="20,10"
                     md:HintAssist.Hint="请输入待办内容"
-                    DockPanel.Dock="Top" />
+                    DockPanel.Dock="Top"
+                    Text="{Binding CurrentTodo.Content}" />
 
                 <Button
                     Margin="20"
+                    Command="{Binding ExecuteCommand}"
+                    CommandParameter="Save"
                     Content="立即添加"
-                    Command="{Binding ExecuteCommand}" CommandParameter="Save"
                     DockPanel.Dock="Top" />
             </DockPanel>
         </md:DrawerHost.RightDrawerContent>
@@ -67,12 +68,15 @@
             <StackPanel Margin="15,0,0,0" Orientation="Horizontal">
                 <TextBox
                     Width="250"
-                    Text="{Binding Serach,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                     VerticalAlignment="Center"
                     md:HintAssist.Hint="查找待办事项..."
-                    md:TextFieldAssist.HasClearButton="True" >
+                    md:TextFieldAssist.HasClearButton="True"
+                    Text="{Binding Serach, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <TextBox.InputBindings>
-                        <KeyBinding Key="Enter" Command="{Binding ExecuteCommand}" CommandParameter="Query"/>
+                        <KeyBinding
+                            Key="Enter"
+                            Command="{Binding ExecuteCommand}"
+                            CommandParameter="Query" />
                     </TextBox.InputBindings>
                 </TextBox>
                 <TextBlock
@@ -83,12 +87,18 @@
                     <ComboBoxItem>全部</ComboBoxItem>
                     <ComboBoxItem>待办</ComboBoxItem>
                     <ComboBoxItem>已完成</ComboBoxItem>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding ExecuteCommand}" CommandParameter="Query" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                 </ComboBox>
             </StackPanel>
             <Button
                 Margin="10,5"
                 HorizontalAlignment="Right"
-                Command="{Binding ExecuteCommand}" CommandParameter="Add">
+                Command="{Binding ExecuteCommand}"
+                CommandParameter="Add">
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
                         <md:PackIcon
@@ -100,9 +110,19 @@
                 </Button.Content>
             </Button>
 
-            <StackPanel Grid.Row="1" VerticalAlignment="Center" Visibility="{Binding TodoDtos.Count,Converter={StaticResource IntToVisibility}}">
-                <Image Source="/Images/NotContent.png" Width="200" Height="200"/>
-                <TextBlock Text="尝试添加一些事件，以便在此处查看它们。" Margin="0 10" FontSize="18" HorizontalAlignment="Center"/>
+            <StackPanel
+                Grid.Row="1"
+                VerticalAlignment="Center"
+                Visibility="{Binding TodoDtos.Count, Converter={StaticResource IntToVisibility}}">
+                <Image
+                    Width="200"
+                    Height="200"
+                    Source="/Images/NotContent.png" />
+                <TextBlock
+                    Margin="0,10"
+                    HorizontalAlignment="Center"
+                    FontSize="18"
+                    Text="尝试添加一些事件，以便在此处查看它们。" />
             </StackPanel>
 
             <!--  列表部分  -->
@@ -119,9 +139,7 @@
                                     Margin="8">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="MouseLeftButtonUp">
-                                            <i:InvokeCommandAction 
-                                                CommandParameter="{Binding}"
-                                                Command="{Binding DataContext.SelectedCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ItemsControl}}"/>
+                                            <i:InvokeCommandAction Command="{Binding DataContext.SelectedCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" CommandParameter="{Binding}" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                     <Grid.RowDefinitions>
@@ -130,22 +148,22 @@
                                     </Grid.RowDefinitions>
 
                                     <md:PopupBox HorizontalAlignment="Right" Panel.ZIndex="1">
-                                        <Button Content="删除" CommandParameter="{Binding}"
-                                                Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ItemsControl}}"/>
+                                        <Button
+                                            Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}"
+                                            CommandParameter="{Binding}"
+                                            Content="删除" />
                                     </md:PopupBox>
 
-                                    <Border
-                                        Grid.RowSpan="2"
-                                        CornerRadius="3" >
+                                    <Border Grid.RowSpan="2" CornerRadius="3">
                                         <Border.Style>
                                             <Style TargetType="Border">
-                                                <!--使用数据触发器对待办是否已完成进行区分-->
+                                                <!--  使用数据触发器对待办是否已完成进行区分  -->
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding Status}" Value="1">
-                                                        <Setter Property="Background" Value="#00ae9d"/>
+                                                        <Setter Property="Background" Value="#00ae9d" />
                                                     </DataTrigger>
                                                     <DataTrigger Binding="{Binding Status}" Value="2">
-                                                        <Setter Property="Background" Value="#999d9c"/>
+                                                        <Setter Property="Background" Value="#999d9c" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
