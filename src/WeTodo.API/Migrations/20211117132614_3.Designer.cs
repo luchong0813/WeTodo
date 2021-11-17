@@ -9,8 +9,8 @@ using WeTodo.API.DataContext;
 namespace WeTodo.API.Migrations
 {
     [DbContext(typeof(ToDoContext))]
-    [Migration("20210922142756_Todo")]
-    partial class Todo
+    [Migration("20211117132614_3")]
+    partial class _3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

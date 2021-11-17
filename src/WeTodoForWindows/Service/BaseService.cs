@@ -26,13 +26,11 @@ namespace WeTodoForWindows.Service
 
         public async Task<ApiResponse<TEntity>> AddAsync(TEntity entity)
         {
-            var todo = entity as TodoDto;
-            todo.Status += 1;
             BaseRequest request = new BaseRequest
             {
                 Method = Method.POST,
                 Route = $"api/{serviceName}/Add",
-                Parameter = todo
+                Parameter = entity
             };
             return await client.ExecuteAsync<TEntity>(request);
         }
@@ -71,8 +69,6 @@ namespace WeTodoForWindows.Service
 
         public async Task<ApiResponse<TEntity>> UpdateAsync(TEntity entity)
         {
-            var todo = entity as TodoDto;
-            todo.Status += 1;
             BaseRequest request = new BaseRequest
             {
                 Method = Method.POST,
